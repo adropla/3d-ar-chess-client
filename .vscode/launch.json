@@ -1,0 +1,50 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-app-rewired",
+      "args": [
+        "start",
+        "react-app-rewired",
+        "start",
+        "--runInBand",
+        "--no-cache"
+      ],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-app-rewired",
+      "args": ["test", "--runInBand", "--no-cache", "--no-watch"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug Build",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-app-rewired",
+      "args": [
+        "build",
+        "react-app-rewired",
+        "build",
+        "--runInBand",
+        "--no-cache"
+      ],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

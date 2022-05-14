@@ -1,0 +1,8 @@
+{
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "editor.fontLigatures": true,
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "files.eol": "\n"
+}
