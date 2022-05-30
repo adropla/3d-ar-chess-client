@@ -17,8 +17,6 @@ import {
 import styles from './GameBoard.module.scss'
 import { addMove } from '../../redux/reducers/currentGameSlice'
 
-const revertSides = (side) => (side === 'w' ? 'b' : 'w')
-
 const GameBoard = () => {
   const { roomIdParam } = useParams()
 
@@ -26,9 +24,13 @@ const GameBoard = () => {
   const mySideFromStore = useAppSelector(selectMySide)
   const fenFromStore = useAppSelector(selectFen)
 
+  console.log(fenFromStore)
+
   const dispatch = useAppDispatch()
 
-  const [game, setGame] = useState(new Chess())
+  const [game, setGame] = useState(
+    new Chess(fenFromStore[fenFromStore.length - 1]),
+  )
 
   const chessboardRef = useRef()
   const wrapperRef = useRef()
