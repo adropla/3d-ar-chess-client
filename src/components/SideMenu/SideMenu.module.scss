@@ -1,10 +1,42 @@
 .logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-weight: bold;
+  padding: 16px;
+  padding-left: 0;
+  .logoImg {
+    width: 100px;
+    height: 100px;
+  }
+  &.collapsed {
+    padding: 0;
+    padding-bottom: 16px;
+    .logoImg {
+      width: 70px;
+      height: 70px;
+    }
+    flex-direction: column;
+  }
+  span {
+    white-space: nowrap;
+  }
 }
 
-.siderWrapper {
+.wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  .loginWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+
+    .loginBtn {
+      margin-bottom: 6px;
+    }
+  }
 }
