@@ -1,0 +1,24 @@
+.wrapper {
+  height: 100%;
+  width: 450px;
+  background-color: #f0d9b5;
+  margin-left: 10px;
+  .middleContent {
+    width: 100%;
+    background-color: rgb(236, 175, 113);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .bottomContent {
+    width: 100%;
+    background-color: rgb(236, 175, 113);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 16px;
+    height: 100%;
+  }
+}

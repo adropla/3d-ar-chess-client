@@ -2,17 +2,22 @@ import { useRef, useState } from 'react'
 import { Chess } from 'chess.js'
 import { Chessboard } from 'react-chessboard'
 
-const ClickToMove = ({ boardWidth }) => {
+import { useBoardWidth } from '../../hooks/useBoardWidth'
+
+import styles from './GameLobbyBoard.module.scss'
+
+const ClickToMove = () => {
   const chessboardRef = useRef()
   const [game, setGame] = useState(new Chess())
 
   const [moveFrom, setMoveFrom] = useState('')
 
   const [rightClickedSquares, setRightClickedSquares] = useState({})
-  const [moveSquares, setMoveSquares] = useState({})
   const [optionSquares, setOptionSquares] = useState({})
 
-  console.log(game)
+  const wrapperRef = useRef()
+
+  const { boardWidth } = useBoardWidth(wrapperRef)
 
   function safeGameMutate(modify) {
     setGame((g) => {
@@ -95,10 +100,10 @@ const ClickToMove = ({ boardWidth }) => {
   }
 
   return (
-    <div>
+    <div className={styles.wrapper} ref={wrapperRef}>
       <Chessboard
         id="ClickToMove"
-        animationDuration={200}
+        animationDuration={500}
         arePiecesDraggable={false}
         boardWidth={boardWidth}
         position={game.fen()}
@@ -109,39 +114,11 @@ const ClickToMove = ({ boardWidth }) => {
           boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)',
         }}
         customSquareStyles={{
-          ...moveSquares,
           ...optionSquares,
           ...rightClickedSquares,
         }}
         ref={chessboardRef}
       />
-      <button
-        className="rc-button"
-        type="button"
-        onClick={() => {
-          safeGameMutate((gameMut) => {
-            gameMut.reset()
-          })
-          chessboardRef.current.clearPremoves()
-          setMoveSquares({})
-          setRightClickedSquares({})
-        }}
-      >
-        reset
-      </button>
-      <button
-        className="rc-button"
-        type="button"
-        onClick={() => {
-          safeGameMutate((gameMut) => {
-            gameMut.undo()
-          })
-          chessboardRef.current.clearPremoves()
-          setMoveSquares({})
-        }}
-      >
-        undo
-      </button>
     </div>
   )
 }

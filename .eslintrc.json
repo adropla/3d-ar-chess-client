@@ -63,6 +63,10 @@
       1,
       { "namedComponents": "arrow-function" }
     ],
-    "react/prop-types": [0]
+    "react/prop-types": [0],
+    "no-unused-vars": 1,
+    "@typescript-eslint/no-unused-vars": 1,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "import/prefer-default-export": 0
   }
 }
