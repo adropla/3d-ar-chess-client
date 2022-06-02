@@ -212,7 +212,7 @@ const GameBoard = () => {
       <Chessboard
         id="ClickToMove"
         boardOrientation={boardOrientation}
-        animationDuration={200}
+        animationDuration={500}
         arePiecesDraggable={false}
         boardWidth={boardWidth}
         position={game.fen()}

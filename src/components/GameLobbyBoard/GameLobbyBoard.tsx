@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { Chess } from 'chess.js'
+import { CSSProperties, useRef, useState } from 'react'
+import { Chess, Square } from 'chess.js'
 import { Chessboard } from 'react-chessboard'
 
 import { useBoardWidth } from '../../hooks/useBoardWidth'
@@ -7,27 +7,22 @@ import { useBoardWidth } from '../../hooks/useBoardWidth'
 import styles from './GameLobbyBoard.module.scss'
 
 const ClickToMove = () => {
-  const chessboardRef = useRef()
   const [game, setGame] = useState(new Chess())
 
-  const [moveFrom, setMoveFrom] = useState('')
+  const [moveFrom, setMoveFrom] = useState<Square>()
 
-  const [rightClickedSquares, setRightClickedSquares] = useState({})
-  const [optionSquares, setOptionSquares] = useState({})
+  const [rightClickedSquares, setRightClickedSquares] = useState<{
+    [key in Square]: CSSProperties
+  }>()
+  const [optionSquares, setOptionSquares] = useState<{
+    [key in Square]: CSSProperties
+  }>()
 
-  const wrapperRef = useRef()
+  const wrapperRef = useRef<HTMLDivElement | null>(null)
 
   const { boardWidth } = useBoardWidth(wrapperRef)
 
-  function safeGameMutate(modify) {
-    setGame((g) => {
-      const update = { ...g }
-      modify(update)
-      return update
-    })
-  }
-
-  function getMoveOptions(square) {
+  function getMoveOptions(square: Square) {
     const moves = game.moves({
       square,
       verbose: true,
@@ -36,28 +31,33 @@ const ClickToMove = () => {
       return
     }
 
-    const newSquares = {}
+    const newSquares:
+      | {
+          [key in Square]: CSSProperties
+        }
+      | undefined = undefined
     moves.map((move) => {
-      newSquares[move.to] = {
+      newSquares![move.to] = {
         background:
           game.get(move.to) &&
-          game.get(move.to).color !== game.get(square).color
+          game.get(move.to)?.color !== game.get(square)?.color
             ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
             : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
         borderRadius: '50%',
       }
+
       return move
     })
-    newSquares[square] = {
+    newSquares![square] = {
       background: 'rgba(255, 255, 0, 0.4)',
     }
     setOptionSquares(newSquares)
   }
 
-  const onSquareClick = (square) => {
-    setRightClickedSquares({})
+  const onSquareClick = (square: Square) => {
+    setRightClickedSquares(undefined)
 
-    const resetFirstMove = (squareInner) => {
+    const resetFirstMove = (squareInner: Square) => {
       setMoveFrom(squareInner)
       getMoveOptions(squareInner)
     }
@@ -69,7 +69,7 @@ const ClickToMove = () => {
     }
 
     // attempt to make move
-    const gameCopy = { ...game }
+    const gameCopy: typeof game = { ...game }
     const move = gameCopy.move({
       from: moveFrom,
       to: square,
@@ -83,17 +83,17 @@ const ClickToMove = () => {
       return
     }
 
-    setMoveFrom('')
-    setOptionSquares({})
+    setMoveFrom(undefined)
+    setOptionSquares(undefined)
   }
 
-  function onSquareRightClick(square) {
+  function onSquareRightClick(square: Square) {
     const colour = 'rgba(0, 0, 255, 0.4)'
     setRightClickedSquares({
-      ...rightClickedSquares,
+      ...rightClickedSquares!,
       [square]:
-        rightClickedSquares[square] &&
-        rightClickedSquares[square].backgroundColor === colour
+        rightClickedSquares![square] &&
+        rightClickedSquares![square].backgroundColor === colour
           ? undefined
           : { backgroundColor: colour },
     })
@@ -102,7 +102,6 @@ const ClickToMove = () => {
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <Chessboard
-        id="ClickToMove"
         animationDuration={500}
         arePiecesDraggable={false}
         boardWidth={boardWidth}
@@ -117,7 +116,6 @@ const ClickToMove = () => {
           ...optionSquares,
           ...rightClickedSquares,
         }}
-        ref={chessboardRef}
       />
     </div>
   )

@@ -12,10 +12,9 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@types/chess.js": "^0.11.2",
     "antd": "^4.20.0",
     "babylonjs-hook": "^0.1.1",
-    "chess.js": "^0.13.1",
+    "chess.js": "^0.13.2",
     "classnames": "^2.3.1",
     "react": "^17.0.2",
     "react-chessboard": "^1.2.3",
@@ -33,6 +32,7 @@
     "webxr-polyfill": "^2.0.3"
   },
   "devDependencies": {
+    "@types/chess.js": "^0.13.1",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.20",

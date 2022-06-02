@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import useWindowDimensions from './useWindowDimension'
 
 export const useBoardWidth = (
-  wrapperRef: React.MutableRefObject<HTMLDivElement>,
+  wrapperRef: React.MutableRefObject<HTMLDivElement | null>,
 ) => {
   const [boardWidth, setBoardWidth] = useState<number>()
   const windowDimensions = useWindowDimensions()
 
   useEffect(() => {
-    if (wrapperRef.current) {
+    if (wrapperRef && wrapperRef.current) {
       const wrapperWidth = wrapperRef.current.getBoundingClientRect().width
       const wrapperHeight = wrapperRef.current.getBoundingClientRect().height
       // console.log(wrapperHeight)

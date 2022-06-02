@@ -6,7 +6,7 @@ import {
 } from '../../services/serverApi'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { selectUserId } from '../../redux/selectors/authSelectors'
-import { setGame } from '../../redux/reducers/currentGameSlice'
+import { clearGame, setGame } from '../../redux/reducers/currentGameSlice'
 import GameOptions from './GameOptions'
 import { socket } from '../../Socket/WebSocket'
 
@@ -39,6 +39,7 @@ const GameOptionsContainer = () => {
     if (createLinkGameResult.error) {
       console.error(createLinkGameResult.data)
     } else if (createLinkGameResult.isSuccess) {
+      dispatch(clearGame())
       const { url } = createLinkGameResult.data
       console.log(url)
       navigate(url)
