@@ -5,8 +5,8 @@ import {
   HemisphericLight,
   MeshBuilder,
 } from '@babylonjs/core'
-// import SceneComponent from './SceneComponent' // uses above component in same directory
-import SceneComponent from 'babylonjs-hook' // if you install 'babylonjs-hook' NPM.
+import '@babylonjs/loaders/glTF'
+import SceneComponent from 'babylonjs-hook'
 
 let box
 
@@ -33,6 +33,8 @@ const onSceneReady = (scene) => {
 
   // Move the box upward 1/2 its height
   box.position.y = 0
+
+  const xr = scene.createDefaultXRExperienceAsync()
 
   // Our built-in 'ground' shape.
   // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)

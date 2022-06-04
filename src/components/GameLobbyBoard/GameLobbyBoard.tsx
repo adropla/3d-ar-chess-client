@@ -6,7 +6,7 @@ import { useBoardWidth } from '../../hooks/useBoardWidth'
 
 import styles from './GameLobbyBoard.module.scss'
 
-const ClickToMove = () => {
+const GameLobbyBoard = () => {
   const [game, setGame] = useState(new Chess())
 
   const [moveFrom, setMoveFrom] = useState<Square>()
@@ -121,4 +121,4 @@ const ClickToMove = () => {
   )
 }
 
-export default ClickToMove
+export default GameLobbyBoard

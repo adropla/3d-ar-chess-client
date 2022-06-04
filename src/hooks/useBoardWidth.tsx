@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import useWindowDimensions from './useWindowDimension'
+
+const getBoardWidth = (
+  ref: React.MutableRefObject<HTMLDivElement | null>,
+  set?: React.Dispatch<React.SetStateAction<number | undefined>>,
+) => {
+  if (ref.current) {
+    const wrapperWidth = ref.current.getBoundingClientRect().width
+    const wrapperHeight = ref.current.getBoundingClientRect().height
+    const boardWidthLocal =
+      wrapperWidth > wrapperHeight ? wrapperHeight : wrapperWidth
+    if (set) {
+      set(boardWidthLocal)
+    }
+  }
+}
 
 export const useBoardWidth = (
   wrapperRef: React.MutableRefObject<HTMLDivElement | null>,
 ) => {
   const [boardWidth, setBoardWidth] = useState<number>()
-  const windowDimensions = useWindowDimensions()
 
   useEffect(() => {
-    if (wrapperRef && wrapperRef.current) {
-      const wrapperWidth = wrapperRef.current.getBoundingClientRect().width
-      const wrapperHeight = wrapperRef.current.getBoundingClientRect().height
-      // console.log(wrapperHeight)
-      // console.log(wrapperWidth)
-      const boardWidthLocal =
-        wrapperWidth > wrapperHeight ? wrapperHeight : wrapperWidth
-      setBoardWidth(boardWidthLocal)
-    }
-  }, [wrapperRef, windowDimensions])
+    const eventFunc = () => getBoardWidth(wrapperRef, setBoardWidth)
+    eventFunc()
+    window.addEventListener('resize', eventFunc)
+    return () => window.removeEventListener('resize', eventFunc)
+  }, [wrapperRef])
+
   return {
     boardWidth,
   }
