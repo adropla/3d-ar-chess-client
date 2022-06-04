@@ -5,19 +5,16 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/preset-typescript": "^7.16.7",
-    "@babylonjs/core": "^5.3.0",
-    "@babylonjs/gui": "^5.3.0",
-    "@babylonjs/loaders": "^5.3.0",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@react-three/drei": "2.2.22",
+    "@react-three/postprocessing": "1.5.1",
     "antd": "^4.20.0",
-    "babylonjs-hook": "^0.1.1",
     "chess.js": "^0.13.2",
     "classnames": "^2.3.1",
     "react": "^17.0.2",
-    "react-babylonjs": "^3.1.2",
     "react-chessboard": "^1.2.3",
     "react-dom": "^17.0.2",
     "react-redux": "^8.0.2",
@@ -30,7 +27,9 @@
     "use-sound": "^4.0.1",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4",
-    "webxr-polyfill": "^2.0.3"
+    "webxr-polyfill": "^2.0.3",
+    "react-three-fiber": "5.3.10",
+    "three": "0.123.0"
   },
   "devDependencies": {
     "@types/chess.js": "^0.13.1",
