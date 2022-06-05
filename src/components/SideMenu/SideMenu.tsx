@@ -61,6 +61,8 @@ const SideMenu: React.FC = () => {
       collapsible
       collapsed={isCollapsed}
       onCollapse={onCollapse}
+      collapsedWidth={0}
+      breakpoint="md"
     >
       <div className={styles.wrapper}>
         <div>
