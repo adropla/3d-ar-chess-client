@@ -77,11 +77,17 @@ const SecondaryButton = styled(Button)`
 
 export type TGameOptions = {
   playViaLink: () => void
+  navigateTo2D: () => void
+  navigateTo3D: () => void
+  navigateToAR: () => void
   isGameRunning: boolean
 }
 
 const GameOptions: React.FC<TGameOptions> = ({
   playViaLink,
+  navigateTo2D,
+  navigateTo3D,
+  navigateToAR,
   isGameRunning,
 }) => {
   return (
@@ -116,9 +122,9 @@ const GameOptions: React.FC<TGameOptions> = ({
           </div>
 
           <div className={classNames(styles.bottomContent)}>
-            <SecondaryButton>2D</SecondaryButton>
-            <SecondaryButton>3D</SecondaryButton>
-            <SecondaryButton>AR</SecondaryButton>
+            <SecondaryButton onClick={navigateTo2D}>2D</SecondaryButton>
+            <SecondaryButton onClick={navigateTo3D}>3D</SecondaryButton>
+            <SecondaryButton onClick={navigateToAR}>AR</SecondaryButton>
           </div>
         </TabPane>
         <TabPane tab="Games" key={uuidv4()}>

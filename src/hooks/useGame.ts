@@ -102,7 +102,7 @@ export const useGame = (isLobby: boolean) => {
 
   useEffect(() => {
     if (!isLobby) {
-      socket.on('opponent move', (room) => {
+      socket.on('opponent move', (room: any) => {
         const { userId, message, messageTurn } = room
         console.log('%c=====ON OPPONENT MOVE=====', 'color: orange')
         console.log('%cuser id from socket', 'color: orange', userId)

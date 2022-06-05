@@ -1,28 +1,24 @@
-import { CSSProperties, useRef, useState } from 'react'
-import { Chess, Square } from 'chess.js'
+import { useRef, useState } from 'react'
+import { Chess } from 'chess.js'
 import { Chessboard } from 'react-chessboard'
 
-import { useBoardWidth } from '../../hooks/useBoardWidth'
+import { useBoardWidth } from '../../../hooks/useBoardWidth'
 
 import styles from './GameLobbyBoard.module.scss'
 
 const GameLobbyBoard = () => {
   const [game, setGame] = useState(new Chess())
 
-  const [moveFrom, setMoveFrom] = useState<Square>()
+  const wrapperRef = useRef()
 
-  const [rightClickedSquares, setRightClickedSquares] = useState<{
-    [key in Square]: CSSProperties
-  }>()
-  const [optionSquares, setOptionSquares] = useState<{
-    [key in Square]: CSSProperties
-  }>()
+  const [moveFrom, setMoveFrom] = useState('')
 
-  const wrapperRef = useRef<HTMLDivElement | null>(null)
+  const [rightClickedSquares, setRightClickedSquares] = useState({})
+  const [optionSquares, setOptionSquares] = useState({})
 
   const { boardWidth } = useBoardWidth(wrapperRef)
 
-  function getMoveOptions(square: Square) {
+  function getMoveOptions(square) {
     const moves = game.moves({
       square,
       verbose: true,
@@ -31,33 +27,28 @@ const GameLobbyBoard = () => {
       return
     }
 
-    const newSquares:
-      | {
-          [key in Square]: CSSProperties
-        }
-      | undefined = undefined
+    const newSquares = {}
     moves.map((move) => {
-      newSquares![move.to] = {
+      newSquares[move.to] = {
         background:
           game.get(move.to) &&
-          game.get(move.to)?.color !== game.get(square)?.color
+          game.get(move.to).color !== game.get(square).color
             ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
             : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
         borderRadius: '50%',
       }
-
       return move
     })
-    newSquares![square] = {
+    newSquares[square] = {
       background: 'rgba(255, 255, 0, 0.4)',
     }
     setOptionSquares(newSquares)
   }
 
-  const onSquareClick = (square: Square) => {
+  const onSquareClick = (square) => {
     setRightClickedSquares(undefined)
 
-    const resetFirstMove = (squareInner: Square) => {
+    const resetFirstMove = (squareInner) => {
       setMoveFrom(squareInner)
       getMoveOptions(squareInner)
     }
@@ -69,7 +60,7 @@ const GameLobbyBoard = () => {
     }
 
     // attempt to make move
-    const gameCopy: typeof game = { ...game }
+    const gameCopy = { ...game }
     const move = gameCopy.move({
       from: moveFrom,
       to: square,
@@ -87,13 +78,13 @@ const GameLobbyBoard = () => {
     setOptionSquares(undefined)
   }
 
-  function onSquareRightClick(square: Square) {
+  function onSquareRightClick(square) {
     const colour = 'rgba(0, 0, 255, 0.4)'
     setRightClickedSquares({
-      ...rightClickedSquares!,
+      ...rightClickedSquares,
       [square]:
-        rightClickedSquares![square] &&
-        rightClickedSquares![square].backgroundColor === colour
+        rightClickedSquares[square] &&
+        rightClickedSquares[square].backgroundColor === colour
           ? undefined
           : { backgroundColor: colour },
     })
