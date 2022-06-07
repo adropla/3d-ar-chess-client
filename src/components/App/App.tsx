@@ -1,12 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'antd'
 
-import Simple3D from '../Simple3D'
 import SideMenu from '../SideMenu/SideMenu'
 
 import 'antd/dist/antd.min.css'
 import styles from './App.module.scss'
-import GamePage from '../pages/GamePage'
+import GamePage2D from '../pages/GamePage2D'
+import GamePage3D from '../pages/GamePage3D'
+import { GamePageAr } from '../pages/GamePageAr'
 
 const { Content } = Layout
 
@@ -16,9 +17,19 @@ const App = (): JSX.Element => {
       <SideMenu />
       <Content className={styles.contentWrapper}>
         <Routes>
-          <Route path="/" element={<GamePage type="lobby" />} />
-          <Route path="/game/:roomIdParam" element={<GamePage type="game" />} />
-          <Route path="/3d" element={<Simple3D />} />
+          <Route path="/" element={<GamePage2D isLobby />} />
+          <Route
+            path="/game/:roomIdParam"
+            element={<GamePage2D isLobby={false} />}
+          />
+
+          <Route path="/3d" element={<GamePage3D isLobby />}>
+            <Route
+              path="/3d/game/:roomIdParam"
+              element={<GamePage3D isLobby={false} />}
+            />
+          </Route>
+          <Route path="/ar" element={<GamePageAr />} />
           {/* <Route
               path="*"
               element={
