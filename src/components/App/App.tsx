@@ -7,7 +7,7 @@ import 'antd/dist/antd.min.css'
 import styles from './App.module.scss'
 import GamePage2D from '../pages/GamePage2D'
 import GamePage3D from '../pages/GamePage3D'
-import { GamePageAr } from '../pages/GamePageAr'
+import GamePageAr from '../pages/GamePageAr'
 
 const { Content } = Layout
 

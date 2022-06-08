@@ -2,6 +2,9 @@
   "name": "vr-chess-react",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/preset-typescript": "^7.16.7",
