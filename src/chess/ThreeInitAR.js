@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import WebXRPolyfill from 'webxr-polyfill'
 import { ARButton } from './ThreeARButton'
 
 let container
@@ -20,6 +21,7 @@ function onWindowResize() {
 }
 
 export function init() {
+  const polyfill = new WebXRPolyfill()
   container = document.createElement('div')
   document.body.appendChild(container)
 
@@ -38,7 +40,7 @@ export function init() {
 
   //
 
-  renderer = new THREE.WebGL1Renderer({ antialias: true, alpha: true })
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.xr.enabled = true
