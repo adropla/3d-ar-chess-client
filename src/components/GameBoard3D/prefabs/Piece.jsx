@@ -1,13 +1,11 @@
 /* eslint-disable no-param-reassign */
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 // Three
 import { Vector3 } from 'three'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-
-// Contexts
-import { ArFuncContext } from '../../contexts/context'
+import { useInteraction } from '@react-three/xr'
 
 // Constants
 import pieceTypeToFile from '../../../constants/pieceModelsTypes.json'
@@ -28,7 +26,6 @@ const pieceBlackColor = 'rgb(102, 101, 101)'
  * @param {function} onSelect on piece select callback.
  */
 export const Piece = ({ type, position, color, onSelect }) => {
-  const ArContext = useContext(ArFuncContext)
   const { nodes } = useGLTF(modelRoot + pieceTypeToFile[type])
 
   const pieceRef = useRef(null)
@@ -92,6 +89,11 @@ export const Piece = ({ type, position, color, onSelect }) => {
       })
     }
   }, [nodes])
+
+  useInteraction(pieceRef, 'onSelect', (e) => {
+    console.log('piece', e)
+    onSelect({ ref: pieceRef, position })
+  })
 
   return (
     <mesh

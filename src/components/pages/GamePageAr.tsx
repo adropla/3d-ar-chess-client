@@ -1,35 +1,13 @@
-import {
-  createContext,
-  Suspense,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { ReactReduxContext } from 'react-redux'
-import {
-  ARCanvas,
-  useHitTest,
-  Interactive,
-  useInteraction,
-} from '@react-three/xr'
-import { Group, Quaternion, Scene, Vector3 } from 'three'
-import {
-  useGLTF,
-  Box,
-  useContextBridge,
-  OrbitControls,
-} from '@react-three/drei'
-import GameOptionsContainer from '../GameOptions/GameOptionsContainer'
-import { ArFuncContext } from '../contexts/context'
+import { Group, Vector3 } from 'three'
+import { ARCanvas, useHitTest, useXR } from '@react-three/xr'
+import { useContextBridge } from '@react-three/drei'
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
 
 const ARApp = () => {
   const ref = useRef<Group>(null)
-  const nodes = useGLTF('/models/bishop.glb')
   const [isPlaced, setIsPlaced] = useState(false)
-  const [placement, setPlacement] = useState<Vector3>()
-  const ArContext = useContext(ArFuncContext)
 
   useHitTest((hitMatrix) => {
     if (!ref.current || isPlaced) {
@@ -37,7 +15,7 @@ const ARApp = () => {
     }
     const { position, quaternion, scale } = ref.current
     // FIXME: Following comment does not work.
-    hitMatrix.decompose(position, quaternion, new Vector3(1, 1, 1))
+    hitMatrix.decompose(position, quaternion, scale)
     // hitMatrix.decompose(
     //   new Vector3(0, 0, 0),
     //   new Quaternion(0, -100, 0, 0),
@@ -45,43 +23,34 @@ const ARApp = () => {
     // )
     const { x, y, z } = position
 
-    setPlacement(position)
     setIsPlaced(true)
     console.log(ref.current)
     console.log(hitMatrix)
   })
 
-  useInteraction(ref, 'onSelect', (e) => {
-    console.log(e)
-    console.log(ArContext)
-    const eventObjectUuid = e.intersection?.object.uuid || ''
-    if (ref.current) {
-      const object = ref.current.getObjectByProperty('uuid', eventObjectUuid)
-      ArContext.ref = object
+  const { isPresenting, player } = useXR()
+
+  useEffect(() => {
+    if (isPresenting) {
+      player.position.x = 60
+      player.position.y = 60
+      player.position.z = 60
     }
-  })
+  }, [isPresenting])
 
   return (
-    <group ref={ref} scale={new Vector3(0.1, 0.1, 0.1)}>
-      {/* <group ref={ref}> */}
+    <group
+      ref={ref}
+      scale={new Vector3(0.5, 0.5, 0.5)}
+      position={new Vector3(0, -20, -10)}
+    >
       <DefaultChessScene ar />
-      {/* <OrbitControls maxDistance={50} minDistance={1} /> */}
     </group>
   )
-  // return <Box ref={ref} args={[0.1, 0.1, 0.1]} />
-
-  // return (
-  //   <mesh
-  //     ref={ref}
-  //     geometry={nodes.chessKitExport.geometry}
-  //     dispose={null}
-  //     scale={0.1}
-  //   />
-  // )
 }
 
 const GamePageAr = () => {
-  const ContextBridge = useContextBridge(ReactReduxContext, ArFuncContext)
+  const ContextBridge = useContextBridge(ReactReduxContext)
 
   useEffect(() => {
     console.log('ar')

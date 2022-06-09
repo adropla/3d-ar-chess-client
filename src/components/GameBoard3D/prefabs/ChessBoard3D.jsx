@@ -6,6 +6,7 @@ import { useTexture } from '@react-three/drei'
 
 // Components
 import { Piece } from './Piece'
+import { Square } from './Square'
 // Constants
 const blackTextureRoot = '/textures/wood/white/'
 const whiteTextureRoot = '/textures/wood/black/'
@@ -220,34 +221,23 @@ export const ChessBoard3D = ({
                   ))}
 
                 {/* Рендер квадратов шахматной доски */}
-                <mesh
-                  name="square"
-                  position={[i - 3.5, 0, j - 3.5]}
-                  scale={[1, 0.2, 1]}
-                  receiveShadow
-                  onClick={() => possible && moveTo([j, i])}
-                  onPointerDown={() => possible && moveTo([j, i])}
-                >
-                  <boxBufferGeometry />
-                  <meshStandardMaterial
-                    {...((i + j) % 2 === 0
-                      ? {
-                          color: whiteColor,
-                          roughnessMap: wRoughT,
-                          normalMap: wNormalT,
-                          map: wColorT,
-                          bumpMap: wDisplT,
-                        }
-                      : {
-                          color: blackColor,
-                          roughnessMap: bRoughT,
-                          normalMap: bNormalT,
-                          map: bColorT,
-                          bumpMap: bDisplT,
-                        })}
-                    {...commonMaterialProps}
-                  />
-                </mesh>
+                <Square
+                  i={i}
+                  j={j}
+                  possible={possible}
+                  moveTo={moveTo}
+                  wColorT={wColorT}
+                  wDisplT={wDisplT}
+                  wNormalT={wNormalT}
+                  wRoughT={wRoughT}
+                  bColorT={bColorT}
+                  bDisplT={bDisplT}
+                  bNormalT={bNormalT}
+                  bRoughT={bRoughT}
+                  whiteColor={whiteColor}
+                  blackColor={blackColor}
+                  commonMaterialProps={commonMaterialProps}
+                />
               </group>
             )
           }),
