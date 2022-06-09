@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContextBridge } from '@react-three/drei'
 import { ReactReduxContext } from 'react-redux'
-import { Canvas } from 'react-three-fiber'
+import { Canvas } from '@react-three/fiber'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 
 import { Hud } from '../GameBoard3D/hud/Hud'
@@ -17,7 +17,7 @@ const GamePage3D = ({ isLobby = true }) => {
     <>
       <div className={styles.canvasWrapper}>
         <FullScreen handle={handleFullScreen}>
-          <Canvas shadowMap>
+          <Canvas>
             <ContextBridge>
               <DefaultChessScene isLobby={isLobby} />
             </ContextBridge>

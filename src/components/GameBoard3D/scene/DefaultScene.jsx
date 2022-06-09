@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 
 // Three
-import { extend } from 'react-three-fiber'
+import { extend } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
@@ -25,10 +25,9 @@ import {
   getCoordenatePositions,
   getNotatedPosition,
 } from '../../../utils/notatedPosition'
-import { Hud } from '../hud/Hud'
 
 extend({ OutlinePass })
-export const DefaultChessScene = (isLobby) => {
+export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
   // Application state.
   const {
     boardOrientation,
@@ -138,23 +137,26 @@ export const DefaultChessScene = (isLobby) => {
 
   return (
     <>
-      <EffectComposer multisampling={8}>
+      {/* <EffectComposer multisampling={8}>
         <Outline
           selection={
             selected.length !== 0 ? selected.map((object) => object.ref) : []
           }
           edgeStrength={10}
         />
-      </EffectComposer>
-
-      <Skybox />
+      </EffectComposer> */}
 
       <hemisphereLight color="white" groundColor="brown" intensity={0.4} />
       <directionalLight position={[2, 10, -10]} castShadow />
       <ambientLight intensity={0.1} />
 
+      {/* {!ar ? (
+        <>
+          <Skybox />
+        </>
+      ) : null} */}
       <PerspectiveCamera makeDefault position={defaultCameraPosition} />
-      <OrbitControls maxDistance={20} minDistance={1} />
+      <OrbitControls maxDistance={50} minDistance={1} />
 
       <Suspense fallback={<>Loading....</>}>
         <ChessBoard3D

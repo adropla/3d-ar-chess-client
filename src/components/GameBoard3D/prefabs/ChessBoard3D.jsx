@@ -136,6 +136,7 @@ export const ChessBoard3D = ({
               color={piece.color}
               position={[j - 3.5, 0.1, i - 3.5]}
               onSelect={({ ref }) => {
+                console.log('on select run', ref)
                 if (
                   possible &&
                   ((piece.color === 'b' && currentTurn === 'b') ||
@@ -220,6 +221,7 @@ export const ChessBoard3D = ({
 
                 {/* Рендер квадратов шахматной доски */}
                 <mesh
+                  name="square"
                   position={[i - 3.5, 0, j - 3.5]}
                   scale={[1, 0.2, 1]}
                   receiveShadow
