@@ -2,8 +2,24 @@ import { Suspense, useEffect, useRef, useState } from 'react'
 import { ReactReduxContext } from 'react-redux'
 import { Group, Vector3 } from 'three'
 import { ARCanvas, useHitTest, useXR } from '@react-three/xr'
+import { useThree } from '@react-three/fiber'
 import { useContextBridge } from '@react-three/drei'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
+
+const CameraController = () => {
+  const { camera, gl } = useThree()
+  useEffect(() => {
+    const controls = new OrbitControls(camera, gl.domElement)
+    controls.minDistance = 1
+    controls.maxDistance = 100
+    return () => {
+      controls.dispose()
+    }
+  }, [camera, gl])
+  return null
+}
 
 const ARApp = () => {
   const ref = useRef<Group>(null)
@@ -28,22 +44,23 @@ const ARApp = () => {
     console.log(hitMatrix)
   })
 
-  const { isPresenting, player } = useXR()
+  // const { isPresenting, player } = useXR()
 
-  useEffect(() => {
-    if (isPresenting) {
-      player.position.x = 60
-      player.position.y = 60
-      player.position.z = 60
-    }
-  }, [isPresenting])
+  // useEffect(() => {
+  //   if (isPresenting) {
+  //     player.position.x = 60
+  //     player.position.y = 60
+  //     player.position.z = 60
+  //   }
+  // }, [isPresenting])
 
   return (
     <group
       ref={ref}
-      scale={new Vector3(0.5, 0.5, 0.5)}
-      position={new Vector3(0, -20, -10)}
+      scale={new Vector3(0.2, 0.2, 0.2)}
+      // position={new Vector3(0, -20, -10)}
     >
+      {/* <CameraController /> */}
       <DefaultChessScene ar />
     </group>
   )
