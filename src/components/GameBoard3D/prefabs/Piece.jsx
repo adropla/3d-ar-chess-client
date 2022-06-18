@@ -51,7 +51,7 @@ export const Piece = ({ type, position, color, onSelect }) => {
       targetPositionRef.current = position
       isLerpingRef.current = true
     }
-  }, [position, targetPositionRef])
+  }, [position])
 
   // Actual Lerp.
   useFrame(() => {

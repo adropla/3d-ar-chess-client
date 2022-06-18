@@ -1,6 +1,9 @@
 import { io } from 'socket.io-client'
 
-const URL = 'http://localhost:5005/chess-room'
+const URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://nest-chess-server.herokuapp.com/chess-room'
+    : 'http://localhost:5005/chess-room'
 
 export const socket = io(URL)
 

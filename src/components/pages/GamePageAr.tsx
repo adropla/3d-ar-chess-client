@@ -30,7 +30,6 @@ const ARApp = () => {
       return
     }
     const { position, quaternion, scale } = ref.current
-    // FIXME: Following comment does not work.
     hitMatrix.decompose(position, quaternion, scale)
     // hitMatrix.decompose(
     //   new Vector3(0, 0, 0),

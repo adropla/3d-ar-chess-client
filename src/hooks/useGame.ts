@@ -14,6 +14,11 @@ import { addMove, clearGame } from '../redux/reducers/currentGameSlice'
 import { socket } from '../Socket/WebSocket'
 import { useGameSounds } from './useGameSounds'
 
+type IGameIsOver = {
+  isDraw: boolean
+  winner: string
+}
+
 export const useGame = (isLobby: boolean) => {
   // #region hook State
   const { roomIdParam } = useParams()
@@ -30,6 +35,7 @@ export const useGame = (isLobby: boolean) => {
 
   const currentGameFen = useMemo(() => game.fen(), [game])
   const isMatchOver = useMemo(() => game.game_over(), [game])
+  const [gameIsOverData, setGameIsOverData] = useState<IGameIsOver>()
   // #endregion
 
   // #region methods
@@ -125,6 +131,9 @@ export const useGame = (isLobby: boolean) => {
       socket.on('gameStart', () => {
         setIsWaiting(false)
       })
+      socket.on('gameIsOver', (data) => {
+        setGameIsOverData(data)
+      })
     }
   }, [isLobby])
   // #endregion
@@ -146,5 +155,6 @@ export const useGame = (isLobby: boolean) => {
     isMatchOver,
     mySideFromStore,
     setGame,
+    gameIsOverData,
   }
 }

@@ -13,7 +13,10 @@ export interface LoginRequest {
   password: string
 }
 
-const baseUrl = 'http://localhost:5005'
+const baseUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://nest-chess-server.herokuapp.com/'
+    : 'http://localhost:5005/'
 
 const baseServerQuery = fetchBaseQuery({
   baseUrl,

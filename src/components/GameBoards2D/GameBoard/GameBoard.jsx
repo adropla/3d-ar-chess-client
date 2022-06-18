@@ -25,6 +25,7 @@ const GameBoard2D = () => {
     game,
     mySideFromStore,
     setGame,
+    gameIsOverData,
   } = useGame()
 
   function getMoveOptions(square) {
@@ -99,9 +100,20 @@ const GameBoard2D = () => {
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
-      <div className={isWaiting ? styles.waiting : styles.hidden}>
+      <div
+        className={
+          isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
+        }
+      >
         <div className={styles.waiting_inner}>
           Ожидаем подключение другого игрока...
+        </div>
+      </div>
+      <div className={gameIsOverData ? styles.waiting : styles.hidden}>
+        <div className={styles.waiting_inner}>
+          {gameIsOverData?.isDraw}
+          <br />
+          {gameIsOverData?.winner}
         </div>
       </div>
       <Chessboard

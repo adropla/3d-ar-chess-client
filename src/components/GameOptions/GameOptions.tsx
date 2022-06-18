@@ -98,35 +98,37 @@ const GameOptions: React.FC<TGameOptions> = ({
             <div>12321321321</div>
           </TabPane>
         )}
-        <TabPane tab="New Game" key={uuidv4()}>
-          <div>
-            <div style={{ padding: '16px' }}>
-              <Select style={{ width: '100%' }} defaultValue="lucy">
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="disabled" disabled>
-                  Disabled
-                </Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
+        {!isGameRunning && (
+          <TabPane tab="New Game" key={uuidv4()}>
+            <div>
+              <div style={{ padding: '16px' }}>
+                <Select style={{ width: '100%' }} defaultValue="lucy">
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="disabled" disabled>
+                    Disabled
+                  </Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
 
-              <PrimaryButton block>Play with Opponent</PrimaryButton>
+                <PrimaryButton block>Play with Opponent</PrimaryButton>
+              </div>
+
+              <div className={classNames(styles.middleContent)}>
+                <SecondaryButton>Play with Computer</SecondaryButton>
+                <SecondaryButton onClick={playViaLink}>
+                  Play with Friend via link
+                </SecondaryButton>
+              </div>
             </div>
 
-            <div className={classNames(styles.middleContent)}>
-              <SecondaryButton>Play with Computer</SecondaryButton>
-              <SecondaryButton onClick={playViaLink}>
-                Play with Friend via link
-              </SecondaryButton>
+            <div className={classNames(styles.bottomContent)}>
+              <SecondaryButton onClick={navigateTo2D}>2D</SecondaryButton>
+              <SecondaryButton onClick={navigateTo3D}>3D</SecondaryButton>
+              <SecondaryButton onClick={navigateToAR}>AR</SecondaryButton>
             </div>
-          </div>
-
-          <div className={classNames(styles.bottomContent)}>
-            <SecondaryButton onClick={navigateTo2D}>2D</SecondaryButton>
-            <SecondaryButton onClick={navigateTo3D}>3D</SecondaryButton>
-            <SecondaryButton onClick={navigateToAR}>AR</SecondaryButton>
-          </div>
-        </TabPane>
+          </TabPane>
+        )}
         <TabPane tab="Games" key={uuidv4()}>
           Games
         </TabPane>

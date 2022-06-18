@@ -54,6 +54,8 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
 
   const [board, setBoard] = useState(initialStateBoard)
 
+  console.log(board)
+
   /**
    * Обновление состояния доски
    * @param {[number, number]} targetPosition Позиция на которую перемещать
@@ -99,6 +101,7 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
 
       const originNPosition = getNotatedPosition(originPosition)
       const targetNPosition = getNotatedPosition(position)
+      console.log(targetNPosition)
 
       const movedPieceId = board[originPosition[0]][originPosition[1]].id
 

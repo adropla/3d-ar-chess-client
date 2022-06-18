@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Layout, Menu, MenuProps } from 'antd'
 import classNames from 'classnames'
@@ -51,9 +51,9 @@ const RegistrationBtnInner = ({ isCollapsed }: { isCollapsed: boolean }) => {
 const SideMenu: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
-  const onCollapse = () => {
+  const onCollapse = useCallback(() => {
     setIsCollapsed((prev) => !prev)
-  }
+  }, [setIsCollapsed])
 
   return (
     <Sider
@@ -62,7 +62,7 @@ const SideMenu: React.FC = () => {
       collapsed={isCollapsed}
       onCollapse={onCollapse}
       collapsedWidth={0}
-      breakpoint="md"
+      breakpoint="lg"
     >
       <div className={styles.wrapper}>
         <div>
