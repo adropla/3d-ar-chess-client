@@ -11,12 +11,13 @@ import {
 } from 'antd'
 import classNames from 'classnames'
 
-import {
+import Icon, {
   UserAddOutlined,
   LoginOutlined,
   PlayCircleOutlined,
   LogoutOutlined,
   UserOutlined,
+  CodeSandboxOutlined,
 } from '@ant-design/icons'
 import styles from './SideMenu.module.scss'
 import logo from '../../assets/logo.png'
@@ -33,6 +34,12 @@ import {
 import { useLogoutMutation } from '../../services/serverApi'
 import { clearCredentials } from '../../redux/reducers/authSlice'
 import ROUTES from '../../constants/routes'
+
+import { ReactComponent as ArSvg } from '../../assets/ar.svg'
+
+const ArIcon = () => (
+  <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={ArSvg} />
+)
 
 const { Sider } = Layout
 const { Text } = Typography
@@ -55,10 +62,71 @@ const getItem = (
 
 const items: MenuItem[] = [
   getItem(
-    <Link to="/game">Play</Link>,
+    <Link to="/">
+      <Text
+        style={{
+          fontSize: '14px',
+          marginBottom: '12px',
+        }}
+      >
+        Играть 2D
+      </Text>
+    </Link>,
     'sider_play',
-    <Link to="/game">
-      <PlayCircleOutlined />
+    <Link
+      to="/"
+      style={{
+        display: 'inline-block',
+        verticalAlign: 'middle',
+      }}
+    >
+      <PlayCircleOutlined style={{ fontSize: '25px' }} />
+    </Link>,
+  ),
+  getItem(
+    <Link to="/3d">
+      {' '}
+      <Text
+        style={{
+          fontSize: '14px',
+          marginBottom: '12px',
+        }}
+      >
+        3D
+      </Text>
+    </Link>,
+    'sider_play',
+    <Link
+      to="/3d"
+      style={{
+        display: 'inline-block',
+        verticalAlign: 'middle',
+      }}
+    >
+      <CodeSandboxOutlined style={{ fontSize: '25px' }} />
+    </Link>,
+  ),
+  getItem(
+    <Link to="/ar">
+      {' '}
+      <Text
+        style={{
+          fontSize: '14px',
+          marginBottom: '20px',
+        }}
+      >
+        AR
+      </Text>
+    </Link>,
+    'sider_play',
+    <Link
+      to="/ar"
+      style={{
+        display: ' inline-block',
+        verticalAlign: 'middle',
+      }}
+    >
+      <ArIcon />
     </Link>,
   ),
   // getItem('Puzzles', 'sider_puzzles', <DesktopOutlined />),

@@ -1,13 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { v4 as uuidv4 } from 'uuid'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+// eslint-disable-next-line import/no-cycle
 import { IUser } from '../../services/serverApi'
 
 const uuid = uuidv4()
+const random = Math.random() * 100000
 
 const initialState: IUser = {
   accessToken: null,
-  name: '',
+  name: `Anonymous${random}`,
   email: '',
   isAuth: false,
   userId: uuid,

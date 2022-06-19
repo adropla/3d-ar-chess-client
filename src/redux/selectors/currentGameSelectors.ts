@@ -6,4 +6,5 @@ export const selectTimeMode = (state: RootState) =>
   state.currentGameSlice.timeMode
 export const selectFen = (state: RootState) => state.currentGameSlice.fen
 export const selectCurrentGame = (state: RootState) => state.currentGameSlice
-// export const selectIsHost = (state: RootState) => state.currentGameSlice.isHost
+export const selectOpponentId = (state: RootState) =>
+  state.currentGameSlice.opponentId
