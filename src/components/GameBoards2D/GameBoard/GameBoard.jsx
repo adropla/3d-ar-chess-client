@@ -42,6 +42,7 @@ const GameBoard2D = () => {
       }
       return move
     })
+    console.log(newSquares)
     newSquares[square] = {
       background: 'rgba(255, 255, 0, 0.4)',
     }

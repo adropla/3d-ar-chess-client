@@ -8,6 +8,7 @@ const useAuthentification = () => {
   const [password, setPassword] = useState<string>('')
 
   const [error, setError] = useState<boolean>(false)
+  const [errorMsg, setErrorMsg] = useState<any>()
 
   const handlePassword: FocusEventHandler<HTMLInputElement> = (e) => {
     setPassword(e.target.value)
@@ -20,8 +21,18 @@ const useAuthentification = () => {
   }
 
   useEffect(() => {
-    setError(loginResult.isError)
+    if (loginResult.isError) {
+      setErrorMsg(loginResult.error)
+      setError(true)
+    }
   }, [loginResult])
+
+  useEffect(() => {
+    if (signUpResult.isError) {
+      setErrorMsg(signUpResult.error)
+      setError(true)
+    }
+  }, [signUpResult])
 
   return {
     loginTrigger,
@@ -33,6 +44,8 @@ const useAuthentification = () => {
     loginResult,
     signUpResult,
     error,
+    errorMsg,
+    setErrorMsg,
     setError,
   }
 }

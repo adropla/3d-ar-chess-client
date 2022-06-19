@@ -11,6 +11,8 @@ const initialState: IUser = {
   email: '',
   isAuth: false,
   userId: uuid,
+  rating: 0,
+  games: [],
 }
 
 const authSlice = createSlice({
@@ -19,10 +21,9 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { accessToken, name, email } }: PayloadAction<IUser>,
+      { payload: { accessToken, email } }: PayloadAction<IUser>,
     ) => {
       state.accessToken = accessToken
-      state.name = name
       state.email = email
       state.isAuth = true
     },
@@ -30,14 +31,35 @@ const authSlice = createSlice({
       state.accessToken = null
       state.name = ''
       state.email = ''
+      state.rating = 0
       state.isAuth = false
     },
     setUsername: (state, { payload: username }: PayloadAction<string>) => {
       state.name = username
     },
+    setUserInfo: (
+      state,
+      { payload: { name, rating, games, userId } }: PayloadAction<IUser>,
+    ) => {
+      state.name = name
+      state.rating = rating
+      state.games = games
+      state.userId = userId
+    },
+    updateAccessToken: (
+      state,
+      { payload: accessToken }: PayloadAction<string>,
+    ) => {
+      state.accessToken = accessToken
+    },
   },
 })
 
-export const { setCredentials, clearCredentials, setUsername } =
-  authSlice.actions
+export const {
+  setCredentials,
+  clearCredentials,
+  setUsername,
+  setUserInfo,
+  updateAccessToken,
+} = authSlice.actions
 export default authSlice.reducer

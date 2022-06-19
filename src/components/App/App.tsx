@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'antd'
 
+import { AuthRoute } from '../AuthRoute/AuthRoute'
+import { useAppSelector } from '../../hooks/redux'
+
 import SideMenu from '../SideMenu/SideMenu'
 
 import 'antd/dist/antd.min.css'
@@ -8,10 +11,14 @@ import styles from './App.module.scss'
 import GamePage2D from '../pages/GamePage2D'
 import GamePage3D from '../pages/GamePage3D'
 import GamePageAr from '../pages/GamePageAr'
+import { selectIsAuth } from '../../redux/selectors/authSelectors'
+import ROUTES from '../../constants/routes'
+import AccountSetting from '../AccountSetting/AccountSetting'
 
 const { Content } = Layout
 
 const App = (): JSX.Element => {
+  const isAuth = useAppSelector(selectIsAuth)
   return (
     <Layout className={styles.layoutWrapper}>
       <SideMenu />
@@ -30,6 +37,10 @@ const App = (): JSX.Element => {
             />
           </Route>
           <Route path="/ar" element={<GamePageAr />} />
+          <Route element={<AuthRoute isAuthenticated={isAuth} />}>
+            <Route path={ROUTES.settings} element={<AccountSetting />} />
+          </Route>
+
           {/* <Route
               path="*"
               element={

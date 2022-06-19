@@ -1,5 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query/react'
 import type { RootState } from '../redux/store'
+// eslint-disable-next-line import/no-cycle
+import {
+  clearCredentials,
+  updateAccessToken,
+} from '../redux/reducers/authSlice'
 
 export interface IUser {
   accessToken: string | null
@@ -7,6 +18,8 @@ export interface IUser {
   name: string
   isAuth: boolean
   userId: string
+  rating: number
+  games: string[]
 }
 export interface LoginRequest {
   email: string
@@ -31,12 +44,40 @@ const baseServerQuery = fetchBaseQuery({
   },
 })
 
+const baseServerQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  let result = await baseServerQuery(args, api, extraOptions)
+
+  if (result.error && result.error.status === 401) {
+    const refreshResult = await baseServerQuery(
+      { url: 'auth/refresh', method: 'post' },
+      api,
+      extraOptions,
+    )
+
+    console.log(refreshResult)
+
+    if (refreshResult.data) {
+      api.dispatch(updateAccessToken('1`23'))
+
+      // retry the initial query
+      result = await baseServerQuery(args, api, extraOptions)
+    } else {
+      api.dispatch(clearCredentials())
+    }
+  }
+  return result
+}
+
 export const serverApi = createApi({
-  baseQuery: baseServerQuery,
+  baseQuery: baseServerQueryWithReauth,
   endpoints: (build) => ({
     login: build.mutation<IUser, LoginRequest>({
       query: (body) => ({
-        url: 'auth/authenticate',
+        url: 'auth/login',
         method: 'post',
         body,
       }),
@@ -58,7 +99,7 @@ export const serverApi = createApi({
     logout: build.mutation({
       query: () => ({
         url: 'auth/logout',
-        method: 'get',
+        method: 'post',
       }),
     }),
     refresh: build.mutation({
@@ -70,7 +111,7 @@ export const serverApi = createApi({
     }),
     changeUsername: build.mutation({
       query: (body) => ({
-        url: 'user/name',
+        url: 'users/changeUsername',
         method: 'put',
         body,
       }),
@@ -89,6 +130,12 @@ export const serverApi = createApi({
         body,
       }),
     }),
+    getUserData: build.mutation({
+      query: () => ({
+        url: `users/info`,
+        method: 'get',
+      }),
+    }),
   }),
 })
 
@@ -100,4 +147,5 @@ export const {
   useChangeUsernameMutation,
   useCreateLinkGameMutation,
   useJoinLinkGameMutation,
+  useGetUserDataMutation,
 } = serverApi
