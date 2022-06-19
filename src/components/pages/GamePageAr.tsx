@@ -4,6 +4,7 @@ import { Group, Vector3 } from 'three'
 import { ARCanvas, useHitTest, useXR } from '@react-three/xr'
 import { useThree } from '@react-three/fiber'
 import { useContextBridge } from '@react-three/drei'
+import { LoadingOutlined } from '@ant-design/icons'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
@@ -71,10 +72,11 @@ const GamePageAr = () => {
   useEffect(() => {
     console.log('ar')
   }, [])
+
   return (
     <ARCanvas sessionInit={{ requiredFeatures: ['hit-test'] }}>
       <ContextBridge>
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingOutlined style={{ fontSize: '30px' }} />}>
           <ARApp />
         </Suspense>
       </ContextBridge>

@@ -10,7 +10,7 @@ import {
   Typography,
 } from 'antd'
 import classNames from 'classnames'
-
+import { v4 as uuidv4 } from 'uuid'
 import Icon, {
   UserAddOutlined,
   LoginOutlined,
@@ -72,7 +72,7 @@ const items: MenuItem[] = [
         Играть 2D
       </Text>
     </Link>,
-    'sider_play',
+    'sider_play2d',
     <Link
       to="/"
       style={{
@@ -95,7 +95,7 @@ const items: MenuItem[] = [
         3D
       </Text>
     </Link>,
-    'sider_play',
+    'sider_play3d',
     <Link
       to="/3d"
       style={{
@@ -118,7 +118,7 @@ const items: MenuItem[] = [
         AR
       </Text>
     </Link>,
-    'sider_play',
+    'sider_playAr',
     <Link
       to="/ar"
       style={{

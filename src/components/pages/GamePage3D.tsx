@@ -16,7 +16,10 @@ const GamePage3D = ({ isLobby = true }) => {
   return (
     <>
       <div className={styles.canvasWrapper}>
-        <FullScreen handle={handleFullScreen}>
+        <FullScreen
+          handle={handleFullScreen}
+          className={styles.fullScreenCustom}
+        >
           <Canvas>
             <ContextBridge>
               <DefaultChessScene isLobby={isLobby} />
