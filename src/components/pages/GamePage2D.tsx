@@ -7,7 +7,7 @@ import { PlayersInfo } from '../PlayersInfo/PlayersInfo'
 const GamePage2D = ({ isLobby = true }) => {
   return (
     <>
-      <PlayersInfo isLobby />
+      <PlayersInfo isLobby={isLobby} />
       {isLobby ? <GameLobbyBoard /> : <GameBoard />}
       <GameOptionsContainer />
     </>

@@ -30,13 +30,14 @@ const App = (): JSX.Element => {
             element={<GamePage2D isLobby={false} />}
           />
 
-          <Route path="/3d" element={<GamePage3D isLobby />}>
-            <Route
-              path="/3d/game/:roomIdParam"
-              element={<GamePage3D isLobby={false} />}
-            />
-          </Route>
+          <Route path="/3d" element={<GamePage3D isLobby />} />
+          <Route
+            path="/3d/game/:roomIdParam"
+            element={<GamePage3D isLobby={false} />}
+          />
           <Route path="/ar" element={<GamePageAr />} />
+
+          <Route path="/ar/game/:roomIdParam" element={<GamePageAr />} />
           <Route element={<AuthRoute isAuthenticated={isAuth} />}>
             <Route path={ROUTES.settings} element={<AccountSetting />} />
           </Route>

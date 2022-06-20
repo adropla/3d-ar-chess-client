@@ -65,7 +65,7 @@ const LoginModal = ({
       loginModalOff()
       message.success('Вы успешно вошли!')
       dispatch(setCredentials({ ...dataSignUp, email }))
-      const userInfo = await getUserInfoTrigger('').unwrap()
+      const userInfo = await getUserInfoTrigger('x').unwrap()
       dispatch(setUserInfo({ ...userInfo }))
       return null
     } catch (e) {

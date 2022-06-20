@@ -12,3 +12,39 @@
 .fullScreenCustom {
   height: 100%;
 }
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .waiting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    z-index: 10;
+    &_inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      top: 50%;
+      width: 250px;
+      height: 100px;
+      color: wheat;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

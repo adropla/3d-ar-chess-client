@@ -127,7 +127,7 @@ export const ChessBoard3D = ({
             break
           }
         }
-        console.log(possibleMoves)
+        // console.log(possibleMoves)
 
         if (piece) {
           return (

@@ -30,9 +30,7 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
     boardOrientation,
     getPossibleMoves,
     currentTurn,
-    isWaiting,
     game,
-    mySideFromStore,
     isMatchOver,
     setGame,
   } = useGame(isLobby)
@@ -54,7 +52,7 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
 
   const [board, setBoard] = useState(initialStateBoard)
 
-  console.log(board)
+  // console.log(board)
 
   /**
    * Обновление состояния доски
@@ -101,7 +99,6 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
 
       const originNPosition = getNotatedPosition(originPosition)
       const targetNPosition = getNotatedPosition(position)
-      console.log(targetNPosition)
 
       const movedPieceId = board[originPosition[0]][originPosition[1]].id
 

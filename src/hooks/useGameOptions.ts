@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   useCreateLinkGameMutation,
   useJoinLinkGameMutation,
@@ -11,6 +11,7 @@ import { socket } from '../Socket/WebSocket'
 
 export const useGameOptions = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { roomIdParam } = useParams()
 
   const isGameRunning = useMemo(() => !!roomIdParam, [roomIdParam])
@@ -35,16 +36,6 @@ export const useGameOptions = () => {
     dispatch(clearGame())
   }, [createLinkGameTrigger, gameOptions, dispatch])
 
-  const navigateTo2D = () => {
-    navigate('/')
-  }
-  const navigateTo3D = () => {
-    navigate('/3d')
-  }
-  const navigateToAR = () => {
-    navigate('/ar')
-  }
-
   useEffect(() => {
     if (createLinkGameResult.error) {
       console.error(createLinkGameResult.data)
@@ -52,7 +43,8 @@ export const useGameOptions = () => {
       dispatch(clearGame())
       const { url } = createLinkGameResult.data
       console.log(url)
-      navigate(url)
+      console.log(location)
+      navigate(`${location.pathname}${url}`)
     }
   }, [createLinkGameResult])
 
@@ -82,8 +74,5 @@ export const useGameOptions = () => {
   return {
     playViaLink,
     isGameRunning,
-    navigateTo2D,
-    navigateTo3D,
-    navigateToAR,
   }
 }

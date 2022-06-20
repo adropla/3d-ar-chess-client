@@ -9,7 +9,12 @@ import {
   selectFen,
   selectMySide,
 } from '../redux/selectors/currentGameSelectors'
-import { addMove, clearGame } from '../redux/reducers/currentGameSlice'
+import {
+  addMove,
+  clearGame,
+  setGameOverData,
+  setIsWaitingStore,
+} from '../redux/reducers/currentGameSlice'
 
 import { socket } from '../Socket/WebSocket'
 import { useGameSounds } from './useGameSounds'
@@ -22,6 +27,7 @@ type IGameIsOver = {
 export const useGame = (isLobby: boolean) => {
   // #region hook State
   const { roomIdParam } = useParams()
+  console.log(roomIdParam)
   const userIdFromStore = useAppSelector(selectUserId)
   const mySideFromStore = useAppSelector(selectMySide)
   const fenFromStore = useAppSelector(selectFen)
@@ -37,6 +43,14 @@ export const useGame = (isLobby: boolean) => {
   const isMatchOver = useMemo(() => game.game_over(), [game])
   const [gameIsOverData, setGameIsOverData] = useState<IGameIsOver>()
   // #endregion
+
+  useEffect(() => {
+    dispatch(setIsWaitingStore(isWaiting))
+  }, [dispatch, isWaiting])
+
+  useEffect(() => {
+    dispatch(setGameOverData(gameIsOverData))
+  }, [dispatch, gameIsOverData])
 
   // #region methods
   const safeGameMutate = (modify: (gameInst: ChessInstance) => void) => {

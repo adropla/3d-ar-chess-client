@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../services/serverApi'
 
 const uuid = uuidv4()
-const random = Math.random() * 100000
+const random = Math.round(Math.random() * 100000)
 
 const initialState: IUser = {
   accessToken: null,

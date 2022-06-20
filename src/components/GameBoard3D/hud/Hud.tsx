@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { FullScreenHandle } from 'react-full-screen'
+import Icon, { ExpandOutlined } from '@ant-design/icons'
+
+import { ReactComponent as SoundOff } from '../../../assets/soundOff.svg'
+import { ReactComponent as SoundOn } from '../../../assets/soundOn.svg'
 
 const base = css`
   font-family: 'Teko', sans-serif;
@@ -10,7 +14,7 @@ const base = css`
   font-variant-numeric: slashed-zero tabular-nums;
   line-height: 1em;
   pointer-events: none;
-  color: indianred;
+  color: black;
 `
 
 const UpperLeft = styled.div`
@@ -18,7 +22,6 @@ const UpperLeft = styled.div`
   top: 40px;
   left: 50px;
   font-size: 2em;
-  transform: skew(5deg, 5deg);
   pointer-events: all;
   cursor: pointer;
   @media only screen and (max-width: 900px) {
@@ -32,7 +35,6 @@ const UpperRight = styled.div`
   top: 40px;
   right: 50px;
   font-size: 2em;
-  transform: skew(-5deg, -5deg);
   pointer-events: all;
   cursor: pointer;
   & > a {
@@ -66,6 +68,14 @@ const LowerRight = styled.div`
   }
 `
 
+const SoundOnIcon = () => (
+  <Icon style={{ fontSize: '30px' }} component={SoundOn} />
+)
+
+const SoundOffIcon = () => (
+  <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={SoundOff} />
+)
+
 export const Hud = ({
   handleFullScreen,
 }: {
@@ -73,6 +83,7 @@ export const Hud = ({
 }) => {
   const { enter, exit } = handleFullScreen
   const [isFullScreen, setIsFullScreen] = useState(false)
+  const [isSound, setIsSound] = useState(true)
   const handleOnClick = () => {
     if (isFullScreen) {
       setIsFullScreen(false)
@@ -81,15 +92,17 @@ export const Hud = ({
     setIsFullScreen(true)
     return enter()
   }
-  const sound = false
   return (
     <>
-      <UpperLeft>
-        sound
-        <br />
-        {sound ? 'off' : 'on'}
-      </UpperLeft>
-      <UpperRight onClick={handleOnClick}>Fullscreen</UpperRight>
+      <UpperRight
+        style={{ marginRight: '50px' }}
+        onClick={() => setIsSound((prev) => !prev)}
+      >
+        {isSound ? <SoundOnIcon /> : <SoundOffIcon />}
+      </UpperRight>
+      <UpperRight onClick={handleOnClick}>
+        <ExpandOutlined />
+      </UpperRight>
       {/* <LowerRight>12312321</LowerRight> */}
     </>
   )

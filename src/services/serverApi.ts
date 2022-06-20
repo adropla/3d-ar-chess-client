@@ -131,9 +131,9 @@ export const serverApi = createApi({
       }),
     }),
     getUserData: build.mutation({
-      query: () => ({
-        url: `users/info`,
-        method: 'get',
+      query: (userId?: string) => ({
+        url: `users/info${userId && `/${userId}`}`,
+        method: 'post',
       }),
     }),
   }),
