@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  generatePath,
+} from 'react-router-dom'
 import {
   useCreateLinkGameMutation,
   useJoinLinkGameMutation,
@@ -42,17 +47,20 @@ export const useGameOptions = () => {
     } else if (createLinkGameResult.isSuccess) {
       dispatch(clearGame())
       const { url } = createLinkGameResult.data
-      console.log(url)
-      console.log(location)
-      navigate(`${location.pathname}${url}`)
+      const goTo = generatePath(':mode/game/:roomIdParam', {
+        mode: location.pathname,
+        roomIdParam: url,
+      })
+      navigate(goTo)
     }
   }, [createLinkGameResult])
 
   useEffect(() => {
     if (roomIdParam && userIdFromStore) {
+      dispatch(clearGame())
       joinLinkGameTrigger({ roomId: roomIdParam, userId: userIdFromStore })
     }
-  }, [roomIdParam, userIdFromStore, joinLinkGameTrigger])
+  }, [roomIdParam, userIdFromStore, joinLinkGameTrigger, dispatch])
 
   useEffect(() => {
     if (joinLinkGameResult.isSuccess) {
@@ -75,4 +83,7 @@ export const useGameOptions = () => {
     playViaLink,
     isGameRunning,
   }
+}
+function useRouter() {
+  throw new Error('Function not implemented.')
 }

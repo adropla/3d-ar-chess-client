@@ -8,6 +8,8 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
+import { useAppDispatch } from '../../hooks/redux'
+import { clearGame } from '../../redux/reducers/currentGameSlice'
 
 const CameraController = () => {
   const { camera, gl } = useThree()
@@ -61,16 +63,18 @@ const ARApp = () => {
       // position={new Vector3(0, -20, -10)}
     >
       {/* <CameraController /> */}
-      <DefaultChessScene ar />
+      <DefaultChessScene ar gameProps={null} />
     </group>
   )
 }
 
 const GamePageAr = () => {
   const ContextBridge = useContextBridge(ReactReduxContext)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     console.log('ar')
+    dispatch(clearGame())
   }, [])
 
   return (

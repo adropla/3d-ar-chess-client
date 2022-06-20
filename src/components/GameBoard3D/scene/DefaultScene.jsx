@@ -11,9 +11,6 @@ import React, {
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
-// Custom hooks
-import { useGame } from '../../../hooks/useGame'
-
 // Prefabs
 import { ChessBoard3D } from '../prefabs/ChessBoard3D'
 import { Skybox } from '../prefabs/SkyBox'
@@ -24,7 +21,11 @@ import {
   getNotatedPosition,
 } from '../../../utils/notatedPosition'
 
-export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
+export const DefaultChessScene = ({
+  gameProps,
+  isLobby = false,
+  ar = false,
+}) => {
   // Application state.
   const {
     boardOrientation,
@@ -33,7 +34,8 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
     game,
     isMatchOver,
     setGame,
-  } = useGame(isLobby)
+    mySideFromStore,
+  } = gameProps
   const [selected, setSelected] = useState([])
   const [possibleMoves, setPossibleMoves] = useState([])
 
@@ -51,8 +53,6 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
   }, [game])
 
   const [board, setBoard] = useState(initialStateBoard)
-
-  // console.log(board)
 
   /**
    * Обновление состояния доски
@@ -127,6 +127,50 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
     }
   }, [selected, getPossibleMoves])
 
+  function getSqures(boarddd) {
+    return boarddd.map((row) => {
+      return row.map((column) => {
+        return column?.square
+      })
+    })
+  }
+
+  const isSameSquare = (a, b) =>
+    a && b && a?.square === b?.square && a?.color === b?.color
+
+  const onlyInLeft = (left, right, compareFunction) =>
+    left.filter(
+      (leftValue) =>
+        !right.some((rightValue) => compareFunction(leftValue, rightValue)),
+    )
+
+  useEffect(() => {
+    if (game.turn() === mySideFromStore) {
+      const originalBoard = game.board().flat()
+      const targetBoard = board.flat()
+
+      const differenceTo = onlyInLeft(
+        originalBoard,
+        targetBoard,
+        isSameSquare,
+      ).filter((x) => x)[0]?.square
+      const differenceFrom = onlyInLeft(
+        targetBoard,
+        originalBoard,
+        isSameSquare,
+      ).filter((x) => x)[0]?.square
+
+      if (differenceTo && differenceFrom) {
+        const coordinateTo = getCoordenatePositions(differenceTo)
+        const coordinateFrom = getCoordenatePositions(differenceFrom)
+
+        const movedPieceId = board[coordinateFrom[0]][coordinateFrom[1]]?.id
+
+        updateBoard(coordinateTo, movedPieceId)
+      }
+    }
+  }, [board, game, mySideFromStore, updateBoard])
+
   const defaultCameraPosition = useMemo(
     () => (boardOrientation === 'b' ? [0, 10, -10] : [0, 10, 10]),
     [boardOrientation],
@@ -146,7 +190,7 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
               edgeStrength={10}
             />
           </EffectComposer>
-          <Skybox />
+          <Skybox isLobby={isLobby} />
           <PerspectiveCamera makeDefault position={defaultCameraPosition} />
           <OrbitControls maxDistance={50} minDistance={1} />
         </>
@@ -165,6 +209,8 @@ export const DefaultChessScene = ({ isLobby = false, ar = false }) => {
           moveTo={moveSelectedPieceTo}
           currentTurn={currentTurn}
           isMatchOver={isMatchOver}
+          mySideFromStore={mySideFromStore}
+          isLobby={isLobby}
         />
       </Suspense>
     </>

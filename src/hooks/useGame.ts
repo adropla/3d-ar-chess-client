@@ -27,7 +27,7 @@ type IGameIsOver = {
 export const useGame = (isLobby: boolean) => {
   // #region hook State
   const { roomIdParam } = useParams()
-  console.log(roomIdParam)
+
   const userIdFromStore = useAppSelector(selectUserId)
   const mySideFromStore = useAppSelector(selectMySide)
   const fenFromStore = useAppSelector(selectFen)
@@ -104,9 +104,9 @@ export const useGame = (isLobby: boolean) => {
         message: Object.values(currentGameFen).join(''),
         messageTurn: currentTurn,
       }
-      console.log('%c=====EMIT_NEW_MOVE=====', 'color: yellow')
-      console.log(obj)
-      console.log('%c=======================', 'color: yellow')
+      // console.log('%c=====EMIT_NEW_MOVE=====', 'color: yellow')
+      // console.log(obj)
+      // console.log('%c=======================', 'color: yellow')
       socket.emit('newMove', obj)
     }
   }, [
@@ -124,12 +124,12 @@ export const useGame = (isLobby: boolean) => {
     if (!isLobby) {
       socket.on('opponent move', (room: any) => {
         const { userId, message, messageTurn } = room
-        console.log('%c=====ON OPPONENT MOVE=====', 'color: orange')
-        console.log('%cuser id from socket', 'color: orange', userId)
-        console.log('%cmy user id', 'color: orange', userIdFromStore)
-        console.log('%cturn', 'color: orange', messageTurn)
-        console.log('%cmy side', 'color: orange', mySideFromStore)
-        console.log('%c==========================', 'color: orange')
+        // console.log('%c=====ON OPPONENT MOVE=====', 'color: orange')
+        // console.log('%cuser id from socket', 'color: orange', userId)
+        // console.log('%cmy user id', 'color: orange', userIdFromStore)
+        // console.log('%cturn', 'color: orange', messageTurn)
+        // console.log('%cmy side', 'color: orange', mySideFromStore)
+        // console.log('%c==========================', 'color: orange')
         if (userIdFromStore !== userId && messageTurn !== mySideFromStore) {
           const msgFen = Object.values(message).join('')
           safeGameMutate((gameInst: ChessInstance) => {

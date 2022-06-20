@@ -43,6 +43,8 @@ export const ChessBoard3D = ({
   moveTo,
   isMatchOver,
   currentTurn,
+  mySideFromStore,
+  isLobby,
 }) => {
   const [wColorT, wDisplT, wNormalT, wRoughT] = useTexture([
     `${whiteTextureRoot}color.jpg`,
@@ -144,13 +146,25 @@ export const ChessBoard3D = ({
                   ((piece.color === 'b' && currentTurn === 'b') ||
                     (piece.color === 'w' && currentTurn === 'w'))
                 ) {
-                  moveTo([j, i])
+                  if (!isLobby) {
+                    if (currentTurn === mySideFromStore) {
+                      moveTo([j, i])
+                    }
+                  } else {
+                    moveTo([j, i])
+                  }
                 } else if (
                   !isMatchOver &&
                   ((piece.color === 'w' && currentTurn === 'w') ||
                     (piece.color === 'b' && currentTurn === 'b'))
                 ) {
-                  setSelectedObject([{ ref, position: [j, i] }])
+                  if (!isLobby) {
+                    if (currentTurn === mySideFromStore) {
+                      setSelectedObject([{ ref, position: [j, i] }])
+                    }
+                  } else {
+                    setSelectedObject([{ ref, position: [j, i] }])
+                  }
                 }
               }}
             />

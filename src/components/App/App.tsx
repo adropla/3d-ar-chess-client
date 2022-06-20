@@ -35,21 +35,22 @@ const App = (): JSX.Element => {
             path="/3d/game/:roomIdParam"
             element={<GamePage3D isLobby={false} />}
           />
-          <Route path="/ar" element={<GamePageAr />} />
 
+          <Route path="/ar" element={<GamePageAr />} />
           <Route path="/ar/game/:roomIdParam" element={<GamePageAr />} />
+
           <Route element={<AuthRoute isAuthenticated={isAuth} />}>
             <Route path={ROUTES.settings} element={<AccountSetting />} />
           </Route>
 
-          {/* <Route
-              path="*"
-              element={
-                <main style={{ padding: '1rem' }}>
-                  <p>There`&apos;`s nothing here!</p>
-                </main>
-              }
-            /> */}
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: '1rem' }}>
+                <p>There`&apos;`s nothing here!</p>
+              </main>
+            }
+          />
         </Routes>
       </Content>
     </Layout>

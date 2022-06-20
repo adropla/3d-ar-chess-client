@@ -117,12 +117,12 @@ const GameOptions: React.FC<TGameOptions> = ({
             </div>
           </TabPane>
         )}
-        <TabPane tab="Games" key={uuidv4()}>
+        {/* <TabPane tab="Games" key={uuidv4()}>
           Games
         </TabPane>
         <TabPane tab="Players" key={uuidv4()}>
           Player
-        </TabPane>
+        </TabPane> */}
       </RightMenuTabs>
     </div>
   )
