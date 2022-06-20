@@ -77,25 +77,34 @@ const SecondaryButton = styled(Button)`
 
 export type TGameOptions = {
   playViaLink: () => void
+  giveUp: () => void
+  offerDraw: () => void
   isGameRunning: boolean
 }
 
 const GameOptions: React.FC<TGameOptions> = ({
   playViaLink,
+  giveUp,
+  offerDraw,
   isGameRunning,
 }) => {
   return (
     <div className={classNames(styles.wrapper)}>
       <RightMenuTabs type="card">
         {isGameRunning && (
-          <TabPane tab="Game" key={uuidv4()}>
-            <div>12321321321</div>
+          <TabPane tab="Текущая игра" key={uuidv4()}>
+            <div className={classNames(styles.middleContent)}>
+              <SecondaryButton onClick={giveUp}>Сдаться</SecondaryButton>
+              <SecondaryButton onClick={offerDraw}>
+                Предложить ничью
+              </SecondaryButton>
+            </div>
           </TabPane>
         )}
         {!isGameRunning && (
-          <TabPane tab="New Game" key={uuidv4()}>
+          <TabPane tab="Новая игра" key={uuidv4()}>
             <div>
-              <div style={{ padding: '16px' }}>
+              {/* <div style={{ padding: '16px' }}>
                 <Select style={{ width: '100%' }} defaultValue="lucy">
                   <Option value="jack">Jack</Option>
                   <Option value="lucy">Lucy</Option>
@@ -106,12 +115,12 @@ const GameOptions: React.FC<TGameOptions> = ({
                 </Select>
 
                 <PrimaryButton block>Play with Opponent</PrimaryButton>
-              </div>
+              </div> */}
 
               <div className={classNames(styles.middleContent)}>
-                <SecondaryButton>Play with Computer</SecondaryButton>
+                <SecondaryButton>Играть с компьютером</SecondaryButton>
                 <SecondaryButton onClick={playViaLink}>
-                  Play with Friend via link
+                  Играть с другом по ссылке
                 </SecondaryButton>
               </div>
             </div>

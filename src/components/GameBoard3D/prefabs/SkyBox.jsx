@@ -6,7 +6,7 @@ export const Skybox = ({ isLobby }) => {
   const { scene } = useThree()
 
   const path = useMemo(
-    () => (isLobby ? 'textures/skybox/' : '../../textures/skybox/'),
+    () => (isLobby ? '/textures/skybox/' : '../../textures/skybox/'),
     [isLobby],
   )
 

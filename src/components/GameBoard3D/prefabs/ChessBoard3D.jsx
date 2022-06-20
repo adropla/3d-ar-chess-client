@@ -140,7 +140,6 @@ export const ChessBoard3D = ({
               color={piece.color}
               position={[j - 3.5, 0.1, i - 3.5]}
               onSelect={({ ref }) => {
-                console.log('on select run', ref)
                 if (
                   possible &&
                   ((piece.color === 'b' && currentTurn === 'b') ||

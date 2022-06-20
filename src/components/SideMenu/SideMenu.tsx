@@ -67,7 +67,6 @@ const useItemWithCustomLink = (roomIdParam: string | null) => {
   useEffect(() => {
     const additionalLink = roomIdParam ? `game/${roomIdParam}` : ''
     setStateItems(additionalLink)
-    console.log(additionalLink)
   }, [roomIdParam])
 
   const items: MenuItem[] = useMemo(
