@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { FullScreenHandle } from 'react-full-screen'
 import Icon, { ExpandOutlined } from '@ant-design/icons'
+import { useAppDispatch } from '../../../hooks/redux'
 
 import { ReactComponent as SoundOff } from '../../../assets/soundOff.svg'
 import { ReactComponent as SoundOn } from '../../../assets/soundOn.svg'
+import { setIsSoundStore } from '../../../redux/reducers/loginModalSlice'
 
 const base = css`
   font-family: 'Teko', sans-serif;
@@ -84,6 +86,7 @@ export const Hud = ({
   const { enter, exit } = handleFullScreen
   const [isFullScreen, setIsFullScreen] = useState(false)
   const [isSound, setIsSound] = useState(true)
+  const dispatch = useAppDispatch()
   const handleOnClick = () => {
     if (isFullScreen) {
       setIsFullScreen(false)
@@ -92,6 +95,9 @@ export const Hud = ({
     setIsFullScreen(true)
     return enter()
   }
+  useEffect(() => {
+    dispatch(setIsSoundStore(isSound))
+  }, [isSound])
   return (
     <>
       <UpperRight

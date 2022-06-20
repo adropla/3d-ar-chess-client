@@ -1,5 +1,5 @@
 import { RootState } from '../store'
 
-const selectLoginModalVisible = (state: RootState) =>
+export const selectLoginModalVisible = (state: RootState) =>
   state.loginModalSlice.visible
-export default selectLoginModalVisible
+export const selectIsSound = (state: RootState) => state.loginModalSlice.isSound

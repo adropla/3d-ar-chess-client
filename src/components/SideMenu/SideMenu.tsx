@@ -22,7 +22,7 @@ import Icon, {
 import styles from './SideMenu.module.scss'
 import logo from '../../assets/logo.png'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import selectLoginModalVisible from '../../redux/selectors/loginModalSelectors'
+import { selectLoginModalVisible } from '../../redux/selectors/loginModalSelectors'
 import { toogleLoginModalVisible } from '../../redux/reducers/loginModalSlice'
 import useModalVisible from '../../hooks/useModalVisible'
 import LoginModal from '../LoginModal/LoginModal'
