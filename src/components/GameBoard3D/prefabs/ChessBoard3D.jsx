@@ -22,7 +22,7 @@ const edgeDefaultWidth = 0.5
 
 const commonMaterialProps = {
   metalness: 0,
-  roughness: 0.3,
+  roughness: 0.1,
   opacity: 1,
   transparent: true,
 }
@@ -237,6 +237,7 @@ export const ChessBoard3D = ({
 
                 {/* Рендер квадратов шахматной доски */}
                 <Square
+                  {...commonMaterialProps}
                   i={i}
                   j={j}
                   possible={possible}
@@ -251,7 +252,6 @@ export const ChessBoard3D = ({
                   bRoughT={bRoughT}
                   whiteColor={whiteColor}
                   blackColor={blackColor}
-                  commonMaterialProps={commonMaterialProps}
                 />
               </group>
             )

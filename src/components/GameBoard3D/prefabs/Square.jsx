@@ -16,7 +16,7 @@ export const Square = ({
   bRoughT,
   whiteColor,
   blackColor,
-  commonMaterialProps,
+  ...rest
 }) => {
   const squareRef = useRef(null)
 
@@ -30,13 +30,13 @@ export const Square = ({
       name="square"
       position={[i - 3.5, 0, j - 3.5]}
       scale={[1, 0.2, 1]}
-      receiveShadow
       ref={squareRef}
       onClick={() => possible && moveTo([j, i])}
       onPointerDown={() => possible && moveTo([j, i])}
     >
       <boxBufferGeometry />
       <meshStandardMaterial
+        {...rest}
         {...((i + j) % 2 === 0
           ? {
               color: whiteColor,
@@ -52,7 +52,6 @@ export const Square = ({
               map: bColorT,
               bumpMap: bDisplT,
             })}
-        {...commonMaterialProps}
       />
     </mesh>
   )

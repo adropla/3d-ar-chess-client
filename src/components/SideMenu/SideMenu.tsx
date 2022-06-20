@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import {
   Avatar,
   Button,
@@ -36,6 +36,7 @@ import { clearCredentials } from '../../redux/reducers/authSlice'
 import ROUTES from '../../constants/routes'
 
 import { ReactComponent as ArSvg } from '../../assets/ar.svg'
+import { selectRoomId } from '../../redux/selectors/currentGameSelectors'
 
 const ArIcon = () => (
   <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={ArSvg} />
@@ -60,77 +61,91 @@ const getItem = (
   } as MenuItem
 }
 
-const items: MenuItem[] = [
-  getItem(
-    <Link to="/">
-      <Text
-        style={{
-          fontSize: '14px',
-          marginBottom: '12px',
-        }}
-      >
-        Играть 2D
-      </Text>
-    </Link>,
-    'sider_play2d',
-    <Link
-      to="/"
-      style={{
-        display: 'inline-block',
-        verticalAlign: 'middle',
-      }}
-    >
-      <PlayCircleOutlined style={{ fontSize: '25px' }} />
-    </Link>,
-  ),
-  getItem(
-    <Link to="/3d">
-      {' '}
-      <Text
-        style={{
-          fontSize: '14px',
-          marginBottom: '12px',
-        }}
-      >
-        3D
-      </Text>
-    </Link>,
-    'sider_play3d',
-    <Link
-      to="/3d"
-      style={{
-        display: 'inline-block',
-        verticalAlign: 'middle',
-      }}
-    >
-      <CodeSandboxOutlined style={{ fontSize: '25px' }} />
-    </Link>,
-  ),
-  getItem(
-    <Link to="/ar">
-      {' '}
-      <Text
-        style={{
-          fontSize: '14px',
-          marginBottom: '20px',
-        }}
-      >
-        AR
-      </Text>
-    </Link>,
-    'sider_playAr',
-    <Link
-      to="/ar"
-      style={{
-        display: ' inline-block',
-        verticalAlign: 'middle',
-      }}
-    >
-      <ArIcon />
-    </Link>,
-  ),
-  // getItem('Puzzles', 'sider_puzzles', <DesktopOutlined />),
-]
+const useItemWithCustomLink = (roomIdParam: string | null) => {
+  const [stateItems, setStateItems] = useState<string>()
+
+  useEffect(() => {
+    const additionalLink = roomIdParam ? `game/${roomIdParam}` : ''
+    setStateItems(additionalLink)
+    console.log(additionalLink)
+  }, [roomIdParam])
+
+  const items: MenuItem[] = useMemo(
+    () => [
+      getItem(
+        <Link to={`/${stateItems}`}>
+          <Text
+            style={{
+              fontSize: '14px',
+              marginBottom: '12px',
+            }}
+          >
+            Играть 2D
+          </Text>
+        </Link>,
+        'sider_play2d',
+        <Link
+          to={`/${stateItems}`}
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+          }}
+        >
+          <PlayCircleOutlined style={{ fontSize: '25px' }} />
+        </Link>,
+      ),
+      getItem(
+        <Link to={`/3d/${stateItems}`}>
+          {' '}
+          <Text
+            style={{
+              fontSize: '14px',
+              marginBottom: '12px',
+            }}
+          >
+            3D
+          </Text>
+        </Link>,
+        'sider_play3d',
+        <Link
+          to={`/3d/${stateItems}`}
+          style={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+          }}
+        >
+          <CodeSandboxOutlined style={{ fontSize: '25px' }} />
+        </Link>,
+      ),
+      getItem(
+        <Link to={`/ar/${stateItems}`}>
+          {' '}
+          <Text
+            style={{
+              fontSize: '14px',
+              marginBottom: '20px',
+            }}
+          >
+            AR
+          </Text>
+        </Link>,
+        'sider_playAr',
+        <Link
+          to={`/ar/${stateItems}`}
+          style={{
+            display: ' inline-block',
+            verticalAlign: 'middle',
+          }}
+        >
+          <ArIcon />
+        </Link>,
+      ),
+    ],
+    [stateItems],
+  )
+
+  return items
+}
 
 const LoginBtnInner = ({ isCollapsed }: { isCollapsed: boolean }) => {
   return isCollapsed ? <LoginOutlined /> : <>Войти</>
@@ -160,6 +175,8 @@ const SideMenu: React.FC = () => {
   const handleSignup = () => {
     signupModalVisible.toogleModal()
   }
+  const roomIdParam = useAppSelector(selectRoomId)
+  const items = useItemWithCustomLink(roomIdParam)
 
   useEffect(() => {
     loginModalVisible.setModalVisible(loginModalVisibleFromStore)

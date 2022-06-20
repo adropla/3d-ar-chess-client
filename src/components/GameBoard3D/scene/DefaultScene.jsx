@@ -172,7 +172,7 @@ export const DefaultChessScene = ({
   }, [board, game, mySideFromStore, updateBoard])
 
   const defaultCameraPosition = useMemo(
-    () => (boardOrientation === 'b' ? [0, 10, -10] : [0, 10, 10]),
+    () => (boardOrientation === 'black' ? [0, 10, -10] : [0, 10, 10]),
     [boardOrientation],
   )
 
@@ -191,10 +191,17 @@ export const DefaultChessScene = ({
             />
           </EffectComposer>
           <Skybox isLobby={isLobby} />
-          <PerspectiveCamera makeDefault position={defaultCameraPosition} />
-          <OrbitControls maxDistance={50} minDistance={1} />
         </>
       )}
+
+      <PerspectiveCamera makeDefault position={defaultCameraPosition} />
+      <OrbitControls
+        maxDistance={50}
+        minDistance={1}
+        enablePan
+        enableRotate
+        enableZoom
+      />
 
       <hemisphereLight color="white" groundColor="brown" intensity={0.4} />
       <directionalLight position={[2, 10, -10]} castShadow />

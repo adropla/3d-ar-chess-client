@@ -47,11 +47,7 @@ export const useGameOptions = () => {
     } else if (createLinkGameResult.isSuccess) {
       dispatch(clearGame())
       const { url } = createLinkGameResult.data
-      const goTo = generatePath(':mode/game/:roomIdParam', {
-        mode: location.pathname,
-        roomIdParam: url,
-      })
-      navigate(goTo)
+      navigate(`game/${url}`)
     }
   }, [createLinkGameResult])
 
