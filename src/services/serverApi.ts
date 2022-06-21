@@ -58,10 +58,12 @@ const baseServerQueryWithReauth: BaseQueryFn<
       extraOptions,
     )
 
-    console.log(refreshResult)
+    const data = refreshResult.data as { accessToken: string }
+
+    // console.log(refreshResult)
 
     if (refreshResult.data) {
-      api.dispatch(updateAccessToken('1`23'))
+      api.dispatch(updateAccessToken(data.accessToken))
 
       // retry the initial query
       result = await baseServerQuery(args, api, extraOptions)

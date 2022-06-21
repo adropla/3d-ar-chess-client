@@ -31,7 +31,7 @@ const authSlice = createSlice({
     },
     clearCredentials: (state) => {
       state.accessToken = null
-      state.name = ''
+      state.name = `Anonymous${random}`
       state.email = ''
       state.rating = 0
       state.isAuth = false

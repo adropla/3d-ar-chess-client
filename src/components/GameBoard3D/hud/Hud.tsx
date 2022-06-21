@@ -75,7 +75,7 @@ const SoundOnIcon = () => (
 )
 
 const SoundOffIcon = () => (
-  <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={SoundOff} />
+  <Icon style={{ fontSize: '30px', fontWeight: '800' }} component={SoundOff} />
 )
 
 export const Hud = ({
@@ -99,17 +99,24 @@ export const Hud = ({
     dispatch(setIsSoundStore(isSound))
   }, [isSound])
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-bettwen',
+        alignItems: 'center',
+      }}
+    >
       <UpperRight
         style={{ marginRight: '50px' }}
+        onTouchMove={() => setIsSound((prev) => !prev)}
         onClick={() => setIsSound((prev) => !prev)}
       >
         {isSound ? <SoundOnIcon /> : <SoundOffIcon />}
       </UpperRight>
-      <UpperRight onClick={handleOnClick}>
+      <UpperRight onClick={handleOnClick} onTouchMove={handleOnClick}>
         <ExpandOutlined />
       </UpperRight>
       {/* <LowerRight>12312321</LowerRight> */}
-    </>
+    </div>
   )
 }

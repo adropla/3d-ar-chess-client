@@ -91,7 +91,7 @@ export const Piece = ({ type, position, color, onSelect }) => {
   }, [nodes])
 
   useInteraction(pieceRef, 'onSelect', (e) => {
-    console.log('piece', e)
+    // console.log('piece', e)
     onSelect({ ref: pieceRef, position })
   })
 

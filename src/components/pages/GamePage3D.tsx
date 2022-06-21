@@ -31,7 +31,7 @@ const GamePage3D = ({ isLobby = true }) => {
   const gameProps = useGame(isLobby)
 
   useEffect(() => {
-    console.log('dispatch')
+    // console.log('dispatch')
     dispatch(clearGame())
   }, [])
   return (
@@ -75,7 +75,7 @@ const GamePage3D = ({ isLobby = true }) => {
           )}
         </FullScreen>
       </div>
-      <GameOptionsContainer />
+      <GameOptionsContainer mode="3d" />
     </>
   )
 }

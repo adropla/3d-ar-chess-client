@@ -1,22 +1,22 @@
 import { Button, Form } from 'antd'
 import RoundModal from '../../styledComponents/RoundModal'
 
-import styles from './GameModal.module.scss'
+import styles from './EndGameModal.module.scss'
 
 export type ModalProps = {
   toogleModal: any
-  setModalVisible: any
+  onClickBtn: any
   modalVisible: boolean
   text: string
 }
 
-export const GameModal = ({
+export const EndGameModal = ({
   toogleModal,
-  setModalVisible,
   modalVisible,
   text,
+  onClickBtn,
 }: ModalProps) => {
-  const handleOk = () => {
+  const onFinish = () => {
     toogleModal()
   }
 
@@ -33,20 +33,20 @@ export const GameModal = ({
       onCancel={onCancel}
       footer={null}
     >
-      <Form name="forgot_form" className={styles.form}>
-        <Form.Item noStyle>
-          <Button type="primary" htmlType="submit" className={styles.btn}>
-            {text}
-          </Button>
-        </Form.Item>
+      <Form
+        name="forgot_form"
+        className={styles.form}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+      >
         <Form.Item noStyle>
           <Button
             type="primary"
             htmlType="submit"
             className={styles.btn}
-            onClick={toogleModal}
+            onClick={onClickBtn}
           >
-            Отмена
+            {text}
           </Button>
         </Form.Item>
       </Form>

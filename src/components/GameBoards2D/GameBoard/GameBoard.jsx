@@ -42,7 +42,7 @@ const GameBoard2D = () => {
       }
       return move
     })
-    console.log(newSquares)
+    // console.log(newSquares)
     newSquares[square] = {
       background: 'rgba(255, 255, 0, 0.4)',
     }
@@ -112,9 +112,11 @@ const GameBoard2D = () => {
       </div>
       <div className={gameIsOverData ? styles.waiting : styles.hidden}>
         <div className={styles.waiting_inner}>
-          {gameIsOverData?.isDraw}
+          {gameIsOverData?.isDraw ? 'ИГРА БЫЛА СЫГРАНА В НИЧЬЮ' : ''}
           <br />
-          {gameIsOverData?.winner}
+          {gameIsOverData?.winnerColor?.[0] === 'b'
+            ? 'Выиграли черные'
+            : 'Выиграли белые'}
         </div>
       </div>
       <Chessboard

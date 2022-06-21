@@ -15,7 +15,7 @@ const GamePage2D = ({ isLobby = true }) => {
     <>
       <PlayersInfo isLobby={isLobby} />
       {isLobby ? <GameLobbyBoard /> : <GameBoard />}
-      <GameOptionsContainer />
+      <GameOptionsContainer mode="2d" />
     </>
   )
 }

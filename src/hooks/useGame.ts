@@ -22,6 +22,7 @@ import { useGameSounds } from './useGameSounds'
 type IGameIsOver = {
   isDraw: boolean
   winner: string
+  winnerColor: string
 }
 
 export const useGame = (isLobby: boolean) => {

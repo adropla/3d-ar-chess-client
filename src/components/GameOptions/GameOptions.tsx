@@ -89,7 +89,7 @@ const GameOptions: React.FC<TGameOptions> = ({
   isGameRunning,
 }) => {
   return (
-    <div className={classNames(styles.wrapper)}>
+    <div className={classNames(styles.wrapper, isGameRunning && styles.hide)}>
       <RightMenuTabs type="card">
         {isGameRunning && (
           <TabPane tab="Текущая игра" key={uuidv4()}>
@@ -118,7 +118,7 @@ const GameOptions: React.FC<TGameOptions> = ({
               </div> */}
 
               <div className={classNames(styles.middleContent)}>
-                <SecondaryButton>Играть с компьютером</SecondaryButton>
+                {/* <SecondaryButton>Играть с компьютером</SecondaryButton> */}
                 <SecondaryButton onClick={playViaLink}>
                   Играть с другом по ссылке
                 </SecondaryButton>

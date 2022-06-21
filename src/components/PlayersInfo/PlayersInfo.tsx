@@ -8,11 +8,12 @@ import {
   selectRating,
   selectUsername,
 } from '../../redux/selectors/authSelectors'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import styles from './PlayersInfo.module.scss'
 import { useGetUserDataMutation } from '../../services/serverApi'
 import { selectOpponentId } from '../../redux/selectors/currentGameSelectors'
+import { setUserInfo } from '../../redux/reducers/authSlice'
 
 const { Text } = Typography
 
@@ -29,6 +30,7 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
   const opponentId = useAppSelector(selectOpponentId)
 
   const [getUserInfoTrigger, getUserInfoResult] = useGetUserDataMutation()
+  const dispatch = useAppDispatch()
   const [opponentInfo, setOpponentInfo] = useState<{
     username: string
     rating: number
@@ -38,15 +40,28 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
     if (!isLobby && opponentId) {
       ;(async () => {
         const data = await getUserInfoTrigger(opponentId).unwrap()
-        console.log(data)
+        // console.log(data)
         setOpponentInfo({ username: data.name, rating: data.rating })
       })()
     }
   }, [isLobby, opponentId, getUserInfoTrigger])
 
+  useEffect(() => {
+    ;(async () => {
+      const userInfo = await getUserInfoTrigger('x').unwrap()
+      dispatch(setUserInfo({ ...userInfo }))
+    })()
+  }, [dispatch, getUserInfoTrigger])
+
   return (
     <div className={classnames(styles.sidesWrapper)}>
-      <div className={classnames(styles.side, isLobby && styles.hide)}>
+      <div
+        className={classnames(
+          styles.side,
+          styles.topSide,
+          isLobby && styles.hide,
+        )}
+      >
         <Avatar shape="square" size={64} icon={<UserOutlined />} />
 
         <div className={styles.info}>
@@ -54,12 +69,12 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
           <Text className={styles.rating}>{opponentInfo?.rating}</Text>
         </div>
       </div>
-      <div className={styles.side}>
+      <div className={classnames(styles.side, styles.bottomSide)}>
         <Avatar shape="square" size={64} icon={<UserOutlined />} />
 
         <div className={styles.info}>
           <Text className={styles.username}>{username}</Text>
-          <Text className={styles.rating}>{rating}</Text>
+          {isAuth && <Text className={styles.rating}>{rating}</Text>}
         </div>
       </div>
     </div>

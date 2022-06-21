@@ -36,7 +36,10 @@ import { clearCredentials } from '../../redux/reducers/authSlice'
 import ROUTES from '../../constants/routes'
 
 import { ReactComponent as ArSvg } from '../../assets/ar.svg'
-import { selectRoomId } from '../../redux/selectors/currentGameSelectors'
+import {
+  selectGameOverData,
+  selectRoomId,
+} from '../../redux/selectors/currentGameSelectors'
 
 const ArIcon = () => (
   <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={ArSvg} />
@@ -62,11 +65,14 @@ const getItem = (
 }
 
 const useItemWithCustomLink = (roomIdParam: string | null) => {
-  const [stateItems, setStateItems] = useState<string>()
+  const [stateItems, setStateItems] = useState<string>('')
+  const gameIsOverFromStore = useAppSelector(selectGameOverData)
 
   useEffect(() => {
-    const additionalLink = roomIdParam ? `game/${roomIdParam}` : ''
-    setStateItems(additionalLink)
+    if (!gameIsOverFromStore) {
+      const additionalLink = roomIdParam ? `game/${roomIdParam}` : ''
+      setStateItems(additionalLink)
+    }
   }, [roomIdParam])
 
   const items: MenuItem[] = useMemo(

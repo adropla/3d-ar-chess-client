@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
 import { Layout } from 'antd'
 
 import { AuthRoute } from '../AuthRoute/AuthRoute'
@@ -14,15 +14,18 @@ import GamePageAr from '../pages/GamePageAr'
 import { selectIsAuth } from '../../redux/selectors/authSelectors'
 import ROUTES from '../../constants/routes'
 import AccountSetting from '../AccountSetting/AccountSetting'
+import { selectRoomId } from '../../redux/selectors/currentGameSelectors'
 
 const { Content } = Layout
 
 const App = (): JSX.Element => {
   const isAuth = useAppSelector(selectIsAuth)
+  const { roomIdParam } = useParams()
+  const wrapperStyle = roomIdParam ? { padding: '20px' } : {}
   return (
     <Layout className={styles.layoutWrapper}>
       <SideMenu />
-      <Content className={styles.contentWrapper}>
+      <Content className={styles.contentWrapper} style={wrapperStyle}>
         <Routes>
           <Route path="/" element={<GamePage2D isLobby />} />
           <Route

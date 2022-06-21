@@ -21,7 +21,7 @@ export const Square = ({
   const squareRef = useRef(null)
 
   useInteraction(squareRef, 'onSelect', (e) => {
-    console.log('square', e)
+    // console.log('square', e)
     return possible && moveTo([j, i])
   })
 

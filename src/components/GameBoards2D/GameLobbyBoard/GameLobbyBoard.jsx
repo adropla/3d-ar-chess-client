@@ -1,6 +1,8 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Chess } from 'chess.js'
 import { Chessboard } from 'react-chessboard'
+import { useAppDispatch } from '../../../hooks/redux'
+import { clearGame } from '../../../redux/reducers/currentGameSlice'
 
 import { useBoardWidth } from '../../../hooks/useBoardWidth'
 
@@ -15,8 +17,14 @@ const GameLobbyBoard = () => {
 
   const [rightClickedSquares, setRightClickedSquares] = useState({})
   const [optionSquares, setOptionSquares] = useState({})
+  const dispatch = useAppDispatch()
 
   const { boardWidth } = useBoardWidth(wrapperRef)
+
+  useEffect(() => {
+    // console.log('dispatch')
+    dispatch(clearGame())
+  }, [])
 
   function getMoveOptions(square) {
     const moves = game.moves({
