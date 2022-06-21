@@ -103,7 +103,7 @@ const GameLobbyBoard = () => {
       <Chessboard
         animationDuration={500}
         arePiecesDraggable={false}
-        boardWidth={boardWidth < 500 ? boardWidth - 20 : boardWidth}
+        boardWidth={boardWidth - 20}
         position={game.fen()}
         onSquareClick={onSquareClick}
         onSquareRightClick={onSquareRightClick}

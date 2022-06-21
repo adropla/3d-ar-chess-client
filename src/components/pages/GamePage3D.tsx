@@ -17,7 +17,6 @@ import {
 } from '../../redux/selectors/currentGameSelectors'
 
 import styles from './GamePage2D.module.scss'
-import { clearGame } from '../../redux/reducers/currentGameSlice'
 import { useGame } from '../../hooks/useGame'
 
 const GamePage3D = ({ isLobby = true }) => {
@@ -25,15 +24,9 @@ const GamePage3D = ({ isLobby = true }) => {
   const handleFullScreen = useFullScreenHandle()
   const isWaiting = useAppSelector(selectIsWaiting)
   const gameIsOverData = useAppSelector(selectGameOverData)
-  const dispatch = useAppDispatch()
-  const { roomIdParam } = useParams()
 
   const gameProps = useGame(isLobby)
 
-  useEffect(() => {
-    console.log('dispatch')
-    dispatch(clearGame())
-  }, [])
   return (
     <>
       <div className={styles.canvasWrapper}>

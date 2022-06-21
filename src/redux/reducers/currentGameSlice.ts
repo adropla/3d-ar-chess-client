@@ -9,6 +9,7 @@ export type ICurrentGame = {
   fen: string[]
   isWaiting?: boolean
   gameOverData?: any
+  didRejoin?: boolean
 }
 
 const initialState: ICurrentGame = {
@@ -19,6 +20,7 @@ const initialState: ICurrentGame = {
   fen: [],
   isWaiting: true,
   gameOverData: null,
+  didRejoin: false,
 }
 
 const currentGameSlice = createSlice({
@@ -53,6 +55,9 @@ const currentGameSlice = createSlice({
     setGameOverData: (state, { payload }: PayloadAction<any>) => {
       state.gameOverData = payload
     },
+    setDidRejoin: (state, { payload }: PayloadAction<boolean>) => {
+      state.didRejoin = payload
+    },
   },
 })
 
@@ -63,5 +68,6 @@ export const {
   loadFen,
   setIsWaitingStore,
   setGameOverData,
+  setDidRejoin,
 } = currentGameSlice.actions
 export default currentGameSlice.reducer

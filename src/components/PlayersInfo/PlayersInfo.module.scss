@@ -4,52 +4,64 @@
   align-items: center;
   flex-direction: column;
   font-weight: bold;
+  width: max-content;
+  height: max-content;
 }
 .side {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
-  padding: 20px;
+  flex-direction: row;
+  padding: 5px;
+  margin-left: 50px;
 }
 .topSide {
   justify-content: start;
-  padding: 80px;
-  padding-top: 20px;
+  padding: 5px;
 }
 .bottomSide {
-  justify-content: end;
+  justify-content: start;
+}
+.username {
+  margin-left: 5px;
 }
 
 .hide {
   opacity: 0;
 }
 
-// @media screen and (max-width: 800px) {
-//   .topSide {
-//     top: 10px;
-//     left: 20px;
-//   }
-//   .bottomSide {
-//     bottom: 10px;
-//     left: 100px;
-//   }
-// }
-
-@media screen and (max-width: 450px) {
-  .side {
+@media screen and (min-width: 900px) {
+  .info {
     flex-direction: row;
-    margin-left: 20px;
+  }
+  .side {
+    flex-direction: column;
+    margin-left: 5px;
   }
   .username {
-    margin-left: 5px;
+    margin-left: 0;
   }
   .topSide {
     justify-content: start;
-    padding: 5px;
   }
   .bottomSide {
-    justify-content: start;
-    padding: 5px;
+    justify-content: end;
   }
 }
+
+// @media screen and (min-width: 450px) {
+//   .side {
+//     flex-direction: row;
+//     margin-left: 50px;
+//   }
+//   .username {
+//     margin-left: 5px;
+//   }
+//   .topSide {
+//     justify-content: start;
+//     padding: 5px;
+//   }
+//   .bottomSide {
+//     justify-content: start;
+//     padding: 5px;
+//   }
+// }

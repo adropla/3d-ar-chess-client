@@ -7,8 +7,8 @@ const getBoardWidth = (
   if (ref.current) {
     const wrapperWidth = ref.current.getBoundingClientRect().width
     const wrapperHeight = ref.current.getBoundingClientRect().height
-    const boardWidthLocal =
-      wrapperWidth > wrapperHeight ? wrapperHeight : wrapperWidth
+    const boardWidthLocal = wrapperWidth < 800 ? wrapperWidth : wrapperHeight
+
     if (set) {
       set(boardWidthLocal)
     }

@@ -36,7 +36,6 @@ const GameBoard2D = () => {
       return
     }
 
-    console.log(moves)
     const newSquares = {}
     moves.map((move) => {
       newSquares[move.to] = {
@@ -135,7 +134,7 @@ const GameBoard2D = () => {
         boardOrientation={boardOrientation}
         animationDuration={500}
         arePiecesDraggable={false}
-        boardWidth={boardWidth < 500 ? boardWidth - 20 : boardWidth}
+        boardWidth={boardWidth - 20}
         position={currentGameFen}
         onSquareClick={onSquareClick}
         onSquareRightClick={onSquareRightClick}

@@ -1,6 +1,7 @@
 .wrapper {
   height: 100%;
-  width: max-content;
+  width: 95vw;
+
   background-color: #f0d9b5;
   margin: 10px;
   .middleContent {
@@ -27,8 +28,8 @@
   display: none;
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (min-width: 900px) {
   .wrapper {
-    width: 95vw;
+    width: max-content;
   }
 }

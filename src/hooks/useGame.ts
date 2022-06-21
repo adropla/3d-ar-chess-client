@@ -6,12 +6,14 @@ import { Chess, ChessInstance, Square } from 'chess.js'
 import { useAppDispatch, useAppSelector } from './redux'
 import { selectUserId } from '../redux/selectors/authSelectors'
 import {
+  selectDidRejoin,
   selectFen,
   selectMySide,
 } from '../redux/selectors/currentGameSelectors'
 import {
   addMove,
   clearGame,
+  setDidRejoin,
   setGameOverData,
   setIsWaitingStore,
 } from '../redux/reducers/currentGameSlice'
@@ -31,6 +33,7 @@ export const useGame = (isLobby: boolean) => {
 
   const userIdFromStore = useAppSelector(selectUserId)
   const mySideFromStore = useAppSelector(selectMySide)
+  const didRejoinFromStore = useAppSelector(selectDidRejoin)
   const fenFromStore = useAppSelector(selectFen)
   const dispatch = useAppDispatch()
 
@@ -87,9 +90,13 @@ export const useGame = (isLobby: boolean) => {
 
   useEffect(() => {
     if (!isLobby && currentGameFen !== fenFromStore[fenFromStore.length - 1]) {
-      dispatch(addMove(currentGameFen))
+      if (!didRejoinFromStore) {
+        dispatch(addMove(currentGameFen))
+      } else {
+        dispatch(setDidRejoin(false))
+      }
     }
-  }, [currentGameFen, fenFromStore, dispatch, isLobby])
+  }, [currentGameFen, fenFromStore, isLobby])
 
   useEffect(() => {
     if (

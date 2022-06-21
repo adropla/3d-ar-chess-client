@@ -19,7 +19,7 @@ import Icon, {
   UserOutlined,
   CodeSandboxOutlined,
 } from '@ant-design/icons'
-import styles from './SideMenu.module.scss'
+import styled from 'styled-components'
 import logo from '../../assets/logo.png'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { selectLoginModalVisible } from '../../redux/selectors/loginModalSelectors'
@@ -40,6 +40,7 @@ import {
   selectGameOverData,
   selectRoomId,
 } from '../../redux/selectors/currentGameSelectors'
+import styles from './SideMenu.module.scss'
 
 const ArIcon = () => (
   <Icon style={{ fontSize: '28px', fontWeight: '800' }} component={ArSvg} />
@@ -160,6 +161,14 @@ const RegistrationBtnInner = ({ isCollapsed }: { isCollapsed: boolean }) => {
   return isCollapsed ? <UserAddOutlined /> : <>Регистрация</>
 }
 
+const StyledSider = styled(Sider)`
+  @media only screen and (max-width: 800px) {
+    .ant-layout-sider-zero-width-trigger {
+      top: 0;
+    }
+  }
+`
+
 const SideMenu: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
@@ -203,7 +212,7 @@ const SideMenu: React.FC = () => {
   }
 
   return (
-    <Sider
+    <StyledSider
       theme="light"
       collapsible
       collapsed={isCollapsed}
@@ -287,7 +296,7 @@ const SideMenu: React.FC = () => {
         toogleLoginModal={loginModalVisible.toogleModalWithStore}
         toogleForgotModal={forgotPasswordModalVisible.toogleModal}
       /> */}
-    </Sider>
+    </StyledSider>
   )
 }
 

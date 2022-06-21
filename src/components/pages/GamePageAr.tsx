@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { ReactReduxContext } from 'react-redux'
-import { Group, Vector3 } from 'three'
-import { ARCanvas, useHitTest, useXR } from '@react-three/xr'
+import { Group } from 'three'
+import { ARCanvas, useHitTest } from '@react-three/xr'
 import {
   OrbitControls,
   useContextBridge,
@@ -13,8 +13,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { LoadingOutlined } from '@ant-design/icons'
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
-import { useAppDispatch } from '../../hooks/redux'
-import { clearGame } from '../../redux/reducers/currentGameSlice'
+
 import { useGame } from '../../hooks/useGame'
 import { PlayersInfo } from '../PlayersInfo/PlayersInfo'
 
@@ -76,13 +75,11 @@ const isXrSupport = async () => {
 
 const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
-  const dispatch = useAppDispatch()
 
   useEffect(() => {
     ;(async () => {
       console.log(await isXrSupport())
     })()
-    dispatch(clearGame())
   }, [])
 
   return (

@@ -12,3 +12,5 @@ export const selectGameOverData = (state: RootState) =>
   state.currentGameSlice.gameOverData
 export const selectOpponentId = (state: RootState) =>
   state.currentGameSlice.opponentId
+export const selectDidRejoin = (state: RootState) =>
+  state.currentGameSlice.didRejoin

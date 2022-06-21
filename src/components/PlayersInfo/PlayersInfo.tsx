@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Avatar, Typography } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import classnames from 'classnames'
@@ -56,13 +56,33 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
     })()
   }, [dispatch, getUserInfoTrigger])
 
-  const endUsername = opponentInfo?.username
-    ? opponentInfo?.username
-    : `Anonymous${Math.round(Math.random() * 100000)}`
-  const endRating = opponentInfo?.rating !== 0 ? opponentInfo?.rating : 0
+  const endUsername = useMemo(
+    () =>
+      opponentInfo?.username
+        ? opponentInfo?.username
+        : `Anonymous${Math.round(Math.random() * 100000)}`,
+    [opponentInfo?.username],
+  )
+  const endRating = useMemo(
+    () => (opponentInfo?.rating !== 0 ? opponentInfo?.rating : 0),
+    [opponentInfo?.rating],
+  )
 
-  const renderUsername = isMy ? username : endUsername
-  const renderRating = isMy ? rating : endRating
+  const renderUsername = useMemo(
+    () => (isMy ? username : endUsername),
+    [isMy, username, endUsername],
+  )
+  const renderRating = useMemo(
+    () => (isMy ? rating : endRating),
+    [endRating, isMy, rating],
+  )
+
+  const avatarSize = useMemo(() => {
+    if (width < 500) return 40
+    if (width < 700) return 50
+    if (width < 900) return 60
+    return 64
+  }, [width])
 
   return (
     <div
@@ -77,7 +97,7 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
       <Avatar
         className={styles.avatar}
         shape="square"
-        size={width < 500 ? 40 : 64}
+        size={avatarSize}
         icon={<UserOutlined />}
       />
 

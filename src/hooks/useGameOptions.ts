@@ -11,7 +11,11 @@ import {
 } from '../services/serverApi'
 import { useAppDispatch, useAppSelector } from './redux'
 import { selectUserId } from '../redux/selectors/authSelectors'
-import { clearGame, setGame } from '../redux/reducers/currentGameSlice'
+import {
+  clearGame,
+  setDidRejoin,
+  setGame,
+} from '../redux/reducers/currentGameSlice'
 import { socket } from '../Socket/WebSocket'
 
 export const useGameOptions = () => {
@@ -71,9 +75,13 @@ export const useGameOptions = () => {
           opponentId,
         }),
       )
+      if (fen.length > 0) {
+        dispatch(setDidRejoin(true))
+      }
+      joinLinkGameResult.reset()
       socket.emit('joinRoom', { roomId, userId: userIdFromStore })
     }
-  }, [joinLinkGameResult, userIdFromStore])
+  }, [joinLinkGameResult, userIdFromStore, roomIdParam])
 
   return {
     playViaLink,
