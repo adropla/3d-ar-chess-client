@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useMemo } from 'react'
+import { useRef, useState } from 'react'
 import { Chessboard } from 'react-chessboard'
 
 import { useBoardWidth } from '../../../hooks/useBoardWidth'
@@ -18,7 +18,6 @@ const GameBoard2D = () => {
 
   const {
     boardOrientation,
-    getPossibleMoves,
     currentGameFen,
     currentTurn,
     isWaiting,
@@ -26,10 +25,18 @@ const GameBoard2D = () => {
     mySideFromStore,
     setGame,
     gameIsOverData,
-  } = useGame()
+  } = useGame(false)
 
   function getMoveOptions(square) {
-    const moves = getPossibleMoves()
+    const moves = game.moves({
+      square,
+      verbose: true,
+    })
+    if (moves.length === 0) {
+      return
+    }
+
+    console.log(moves)
     const newSquares = {}
     moves.map((move) => {
       newSquares[move.to] = {
@@ -105,8 +112,12 @@ const GameBoard2D = () => {
         className={
           isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
         }
+        style={{
+          width: `${boardWidth < 500 ? boardWidth - 20 : boardWidth}px`,
+          height: `${boardWidth < 500 ? boardWidth - 20 : boardWidth}px`,
+        }}
       >
-        <div className={styles.waiting_inner}>
+        <div className={styles.waiting_inner} s>
           Ожидаем подключение другого игрока...
         </div>
       </div>
@@ -124,7 +135,7 @@ const GameBoard2D = () => {
         boardOrientation={boardOrientation}
         animationDuration={500}
         arePiecesDraggable={false}
-        boardWidth={boardWidth}
+        boardWidth={boardWidth < 500 ? boardWidth - 20 : boardWidth}
         position={currentGameFen}
         onSquareClick={onSquareClick}
         onSquareRightClick={onSquareRightClick}

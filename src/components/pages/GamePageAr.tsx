@@ -66,11 +66,22 @@ const ARApp = ({ isLobby }: { isLobby: boolean }) => {
 //   )
 // }
 
+const isXrSupport = async () => {
+  let isSupported = false
+  if (navigator.xr) {
+    isSupported = await navigator.xr.isSessionSupported('immersive-vr')
+  }
+  return isSupported
+}
+
 const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    ;(async () => {
+      console.log(await isXrSupport())
+    })()
     dispatch(clearGame())
   }, [])
 
@@ -83,8 +94,9 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
           </Suspense>
         </ContextBridge>
       </ARCanvas>
-      <PlayersInfo isLobby={isLobby} />
-      <GameOptionsContainer mode="3d" />
+      <PlayersInfo isLobby={isLobby} isMy />
+      <PlayersInfo isLobby={isLobby} isMy={false} />
+      <GameOptionsContainer mode="ar" />
     </div>
   )
 }

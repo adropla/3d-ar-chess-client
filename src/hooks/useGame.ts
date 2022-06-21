@@ -35,7 +35,11 @@ export const useGame = (isLobby: boolean) => {
   const dispatch = useAppDispatch()
 
   const [game, setGame] = useState(
-    new Chess(fenFromStore[fenFromStore.length - 1]),
+    new Chess(
+      fenFromStore && fenFromStore.length
+        ? fenFromStore[fenFromStore.length - 1]
+        : undefined,
+    ),
   )
   const [currentTurn, setCurrentTurn] = useState<'w' | 'b'>()
   const [isWaiting, setIsWaiting] = useState(true)
@@ -62,16 +66,14 @@ export const useGame = (isLobby: boolean) => {
     })
   }
 
-  const getPossibleMoves = useCallback(
-    (square: Square) => {
-      const moves = game.moves({
-        square,
-        verbose: true,
-      })
-      return moves
-    },
-    [game],
-  )
+  const getPossibleMoves = (square: Square) => {
+    const moves = game.moves({
+      square,
+      verbose: true,
+    })
+    return moves
+  }
+
   // #endregion
 
   // #region custom hooks

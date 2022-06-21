@@ -77,18 +77,20 @@ const LowerRight = styled.div`
   }
 `
 
-const PrimaryButton = styled(Button)`
-  &&& {
-    background-color: peru;
-    margin-top: 16px;
-    font-size: 20px;
-    font-weight: bold;
-    height: fit-content;
-    &:hover {
-      color: black;
-      outline: none;
-      border: 0;
-    }
+const UpperRight = styled.div`
+  ${base}
+  text-align: right;
+  top: 10px;
+  right: 10px;
+  font-size: 2em;
+  pointer-events: all;
+  cursor: pointer;
+  & > a {
+    color: indianred;
+    text-decoration: none;
+  }
+  @media only screen and (max-width: 900px) {
+    font-size: 1.5em;
   }
 `
 
@@ -115,14 +117,14 @@ export type TGameOptions = {
   isGameRunning: boolean
 }
 
-export const GameOptions3d: React.FC<TGameOptions> = ({
+export const GameOptionsAR: React.FC<TGameOptions> = ({
   playViaLink,
   giveUp,
   offerDraw,
   isGameRunning,
 }) => {
   return (
-    <LowerRight>
+    <UpperRight>
       {isGameRunning && (
         <>
           <SecondaryButton onClick={giveUp}>Сдаться</SecondaryButton>
@@ -139,6 +141,6 @@ export const GameOptions3d: React.FC<TGameOptions> = ({
           </SecondaryButton>
         </>
       )}
-    </LowerRight>
+    </UpperRight>
   )
 }

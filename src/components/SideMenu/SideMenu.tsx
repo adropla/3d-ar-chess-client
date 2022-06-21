@@ -210,6 +210,13 @@ const SideMenu: React.FC = () => {
       onCollapse={onCollapse}
       collapsedWidth={0}
       breakpoint="lg"
+      style={{
+        zIndex: '1050',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        height: '100vh',
+      }}
     >
       <div className={styles.wrapper}>
         <div>

@@ -1,8 +1,8 @@
 .wrapper {
   height: 100%;
-  width: 450px;
+  width: max-content;
   background-color: #f0d9b5;
-  margin-left: 10px;
+  margin: 10px;
   .middleContent {
     width: 100%;
     background-color: rgb(236, 175, 113);
@@ -25,4 +25,10 @@
 
 .hide {
   display: none;
+}
+
+@media screen and (max-width: 450px) {
+  .wrapper {
+    width: 95vw;
+  }
 }

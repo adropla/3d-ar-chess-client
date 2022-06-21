@@ -14,7 +14,6 @@ import GamePageAr from '../pages/GamePageAr'
 import { selectIsAuth } from '../../redux/selectors/authSelectors'
 import ROUTES from '../../constants/routes'
 import AccountSetting from '../AccountSetting/AccountSetting'
-import { selectRoomId } from '../../redux/selectors/currentGameSelectors'
 
 const { Content } = Layout
 

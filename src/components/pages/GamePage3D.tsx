@@ -31,7 +31,7 @@ const GamePage3D = ({ isLobby = true }) => {
   const gameProps = useGame(isLobby)
 
   useEffect(() => {
-    // console.log('dispatch')
+    console.log('dispatch')
     dispatch(clearGame())
   }, [])
   return (
@@ -51,7 +51,8 @@ const GamePage3D = ({ isLobby = true }) => {
             </ContextBridge>
           </Canvas>
           <Hud handleFullScreen={handleFullScreen} />
-          <PlayersInfo isLobby={isLobby} />
+          <PlayersInfo isLobby={isLobby} isMy />
+          <PlayersInfo isLobby={isLobby} isMy={false} />
 
           {!isLobby && (
             <>

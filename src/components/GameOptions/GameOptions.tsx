@@ -89,7 +89,7 @@ const GameOptions: React.FC<TGameOptions> = ({
   isGameRunning,
 }) => {
   return (
-    <div className={classNames(styles.wrapper, isGameRunning && styles.hide)}>
+    <div className={classNames(styles.wrapper)}>
       <RightMenuTabs type="card">
         {isGameRunning && (
           <TabPane tab="Текущая игра" key={uuidv4()}>

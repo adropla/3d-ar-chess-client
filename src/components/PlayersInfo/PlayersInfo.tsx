@@ -14,16 +14,17 @@ import styles from './PlayersInfo.module.scss'
 import { useGetUserDataMutation } from '../../services/serverApi'
 import { selectOpponentId } from '../../redux/selectors/currentGameSelectors'
 import { setUserInfo } from '../../redux/reducers/authSlice'
+import useWindowDimensions from '../../hooks/useWindowDimension'
 
 const { Text } = Typography
 
 type IPlayerInfo = {
   isLobby: boolean
+  isMy: boolean
 }
 
 export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
-  const { isLobby } = props
-  const isAuth = useAppSelector(selectIsAuth)
+  const { isLobby, isMy } = props
   const username = useAppSelector(selectUsername)
   const rating = useAppSelector(selectRating)
 
@@ -35,6 +36,8 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
     username: string
     rating: number
   }>()
+
+  const { width } = useWindowDimensions()
 
   useEffect(() => {
     if (!isLobby && opponentId) {
@@ -53,29 +56,36 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
     })()
   }, [dispatch, getUserInfoTrigger])
 
+  const endUsername = opponentInfo?.username
+    ? opponentInfo?.username
+    : `Anonymous${Math.round(Math.random() * 100000)}`
+  const endRating = opponentInfo?.rating !== 0 ? opponentInfo?.rating : 0
+
+  const renderUsername = isMy ? username : endUsername
+  const renderRating = isMy ? rating : endRating
+
   return (
-    <div className={classnames(styles.sidesWrapper)}>
-      <div
-        className={classnames(
-          styles.side,
-          styles.topSide,
-          isLobby && styles.hide,
-        )}
-      >
-        <Avatar shape="square" size={64} icon={<UserOutlined />} />
+    <div
+      className={classnames(
+        styles.side,
+        isMy && styles.bottomSide,
+        !isMy && styles.topSide,
+        isLobby && !isMy && styles.hide,
+      )}
+      style={{ zIndex: '1000' }}
+    >
+      <Avatar
+        className={styles.avatar}
+        shape="square"
+        size={width < 500 ? 40 : 64}
+        icon={<UserOutlined />}
+      />
 
-        <div className={styles.info}>
-          <Text className={styles.username}>{opponentInfo?.username}</Text>
-          <Text className={styles.rating}>{opponentInfo?.rating}</Text>
-        </div>
-      </div>
-      <div className={classnames(styles.side, styles.bottomSide)}>
-        <Avatar shape="square" size={64} icon={<UserOutlined />} />
-
-        <div className={styles.info}>
-          <Text className={styles.username}>{username}</Text>
-          {isAuth && <Text className={styles.rating}>{rating}</Text>}
-        </div>
+      <div className={styles.info}>
+        <Text className={styles.username}>{renderUsername}</Text>
+        <Text className={styles.rating}>
+          {renderRating === 0 ? '' : renderRating}
+        </Text>
       </div>
     </div>
   )

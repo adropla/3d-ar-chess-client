@@ -54,3 +54,16 @@
 .hidden {
   display: none;
 }
+
+.gamePageWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width: 850px) {
+  .gamePageWrapper {
+    flex-direction: row;
+  }
+}

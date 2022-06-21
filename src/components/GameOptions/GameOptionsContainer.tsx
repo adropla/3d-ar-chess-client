@@ -11,6 +11,7 @@ import { EndGameModal } from '../EndGameModal/EndGameModal'
 import { GameModal } from '../GameModals/GameModal'
 import GameOptions from './GameOptions'
 import { GameOptions3d } from './GameOptions3d'
+import { GameOptionsAR } from './GameOptionsAR'
 
 const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
   const { playViaLink, isGameRunning } = useGameOptions()
@@ -77,6 +78,15 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
       )}
       {mode === '3d' && (
         <GameOptions3d
+          playViaLink={playViaLink}
+          isGameRunning={isGameRunning}
+          giveUp={giveUp}
+          offerDraw={offerDraw}
+        />
+      )}
+
+      {mode === 'ar' && (
+        <GameOptionsAR
           playViaLink={playViaLink}
           isGameRunning={isGameRunning}
           giveUp={giveUp}

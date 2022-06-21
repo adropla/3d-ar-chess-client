@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { Chess } from 'chess.js'
 import { Chessboard } from 'react-chessboard'
 import { useAppDispatch } from '../../../hooks/redux'
@@ -103,7 +103,7 @@ const GameLobbyBoard = () => {
       <Chessboard
         animationDuration={500}
         arePiecesDraggable={false}
-        boardWidth={boardWidth}
+        boardWidth={boardWidth < 500 ? boardWidth - 20 : boardWidth}
         position={game.fen()}
         onSquareClick={onSquareClick}
         onSquareRightClick={onSquareRightClick}
