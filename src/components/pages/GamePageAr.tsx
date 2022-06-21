@@ -11,7 +11,6 @@ import {
 import { extend } from '@react-three/fiber'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
-import { LoadingOutlined } from '@ant-design/icons'
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
 
 import { useGame } from '../../hooks/useGame'
@@ -21,7 +20,13 @@ import styles from './GamePage2D.module.scss'
 import GameOptionsContainer from '../GameOptions/GameOptionsContainer'
 import myFont from '../../assets/comic.ttf'
 
-const ARApp = ({ isLobby }: { isLobby: boolean }) => {
+const ARApp = ({
+  isLobby,
+  gameProps,
+}: {
+  isLobby: boolean
+  gameProps: any
+}) => {
   const ref = useRef<Group>(null)
   const [isPlaced, setIsPlaced] = useState(false)
 
@@ -38,8 +43,6 @@ const ARApp = ({ isLobby }: { isLobby: boolean }) => {
     // console.log(ref.current)
     // console.log(hitMatrix)
   })
-
-  const gameProps = useGame(isLobby)
 
   return (
     <group ref={ref}>
@@ -82,12 +85,14 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
     })()
   }, [])
 
+  const gameProps = useGame(isLobby)
+
   return (
     <div className={styles.arWrapper}>
       <ARCanvas sessionInit={{ requiredFeatures: ['hit-test'] }}>
         <ContextBridge>
-          <Suspense fallback={<LoadingOutlined style={{ fontSize: '30px' }} />}>
-            <ARApp isLobby={isLobby} />
+          <Suspense fallback={<planeGeometry>12312321</planeGeometry>}>
+            <ARApp isLobby={isLobby} gameProps={gameProps} />
           </Suspense>
         </ContextBridge>
       </ARCanvas>

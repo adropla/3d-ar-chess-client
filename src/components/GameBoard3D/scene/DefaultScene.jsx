@@ -207,7 +207,7 @@ export const DefaultChessScene = ({
       <directionalLight position={[2, 10, -10]} castShadow />
       <ambientLight intensity={0.1} />
 
-      <Suspense fallback={<>Loading....</>}>
+      <Suspense fallback={<planeGeometry>12312</planeGeometry>}>
         <ChessBoard3D
           board={board}
           possibleMoves={possibleMoves}

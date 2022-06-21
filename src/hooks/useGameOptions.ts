@@ -20,7 +20,6 @@ import { socket } from '../Socket/WebSocket'
 
 export const useGameOptions = () => {
   const navigate = useNavigate()
-  const location = useLocation()
   const { roomIdParam } = useParams()
 
   const isGameRunning = useMemo(() => !!roomIdParam, [roomIdParam])
@@ -87,7 +86,4 @@ export const useGameOptions = () => {
     playViaLink,
     isGameRunning,
   }
-}
-function useRouter() {
-  throw new Error('Function not implemented.')
 }
