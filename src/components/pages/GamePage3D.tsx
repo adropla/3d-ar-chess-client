@@ -18,6 +18,7 @@ import {
 import { useGame } from '../../hooks/useGame'
 
 import styles from './GamePage2D.module.scss'
+import { selectIsAuth } from '../../redux/selectors/authSelectors'
 
 const GamePage3D = ({ isLobby = true }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
@@ -26,6 +27,7 @@ const GamePage3D = ({ isLobby = true }) => {
   const gameIsOverData = useAppSelector(selectGameOverData)
 
   const gameProps = useGame(isLobby)
+  const isAuth = useAppSelector(selectIsAuth)
 
   return (
     <div className={styles.canvasWrapper}>
@@ -40,8 +42,13 @@ const GamePage3D = ({ isLobby = true }) => {
           </ContextBridge>
         </Canvas>
         <Hud handleFullScreen={handleFullScreen} />
-        <PlayersInfo isLobby={isLobby} isMy />
-        <PlayersInfo isLobby={isLobby} isMy={false} />
+        {isAuth && (
+          <>
+            <PlayersInfo isLobby={isLobby} isMy />
+            <PlayersInfo isLobby={isLobby} isMy={false} />
+          </>
+        )}
+
         <GameOptionsContainer mode="3d" />
 
         <div

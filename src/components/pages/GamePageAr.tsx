@@ -18,29 +18,7 @@ import {
   selectGameOverData,
   selectIsWaiting,
 } from '../../redux/selectors/currentGameSelectors'
-
-const CreateAnimatedMesh = () => {
-  const size = useAspect(1800, 1000)
-  const [video] = useState(() =>
-    Object.assign(document.createElement('video'), {
-      src: '../../assets/stabilization.gif',
-      crossOrigin: 'Anonymous',
-      loop: true,
-      muted: true,
-    }),
-  )
-  useEffect(() => {
-    video.play()
-  }, [video])
-  return (
-    <mesh scale={size}>
-      <planeBufferGeometry />
-      <meshBasicMaterial toneMapped={false}>
-        <videoTexture attach="map" args={[video]} encoding={sRGBEncoding} />
-      </meshBasicMaterial>
-    </mesh>
-  )
-}
+import { selectIsAuth } from '../../redux/selectors/authSelectors'
 
 const ARApp = ({
   isLobby,
@@ -70,7 +48,6 @@ const ARApp = ({
     <group ref={ref}>
       <OrbitControls />
       <DefaultChessScene isLobby={isLobby} ar gameProps={gameProps} />
-      <CreateAnimatedMesh />
     </group>
   )
 }
@@ -103,10 +80,12 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
   const isWaiting = useAppSelector(selectIsWaiting)
   const gameIsOverData = useAppSelector(selectGameOverData)
+  const [arSupport, setArSupport] = useState(false)
+  const isAuth = useAppSelector(selectIsAuth)
 
   useEffect(() => {
     ;(async () => {
-      console.log(await isXrSupport())
+      setArSupport(await isXrSupport())
     })()
   }, [])
 
@@ -114,22 +93,44 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
 
   return (
     <div className={styles.arWrapper}>
-      <ARCanvas sessionInit={{ requiredFeatures: ['hit-test'] }}>
-        <ContextBridge>
-          <Suspense fallback={<planeGeometry>12312321</planeGeometry>}>
-            <ARApp isLobby={isLobby} gameProps={gameProps} />
-          </Suspense>
-        </ContextBridge>
-      </ARCanvas>
-      <PlayersInfo isLobby={isLobby} isMy />
-      <PlayersInfo isLobby={isLobby} isMy={false} />
-      <GameOptionsContainer mode="ar" />
+      {arSupport && (
+        <>
+          <ARCanvas sessionInit={{ requiredFeatures: ['hit-test'] }}>
+            <ContextBridge>
+              <Suspense fallback={null}>
+                <ARApp isLobby={isLobby} gameProps={gameProps} />
+              </Suspense>
+            </ContextBridge>
+          </ARCanvas>
+          {isAuth && (
+            <>
+              <PlayersInfo isLobby={isLobby} isMy />
+              <PlayersInfo isLobby={isLobby} isMy={false} />
+            </>
+          )}
+          <GameOptionsContainer mode="ar" />
+          <div
+            className={
+              !isLobby && isWaiting && !gameIsOverData
+                ? styles.waiting
+                : styles.hidden
+            }
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left: '0',
+            }}
+          >
+            <div className={styles.waiting_inner}>
+              Ожидаем подключение другого игрока...
+            </div>
+          </div>
+        </>
+      )}
       <div
-        className={
-          !isLobby && isWaiting && !gameIsOverData
-            ? styles.waiting
-            : styles.hidden
-        }
+        className={!arSupport ? styles.waiting : styles.hidden}
         style={{
           width: '100%',
           height: '100%',
@@ -139,7 +140,7 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
         }}
       >
         <div className={styles.waiting_inner}>
-          Ожидаем подключение другого игрока...
+          Дополненная реальность не поддерживается на вашем устройстве
         </div>
       </div>
     </div>

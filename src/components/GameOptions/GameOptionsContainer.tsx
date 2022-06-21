@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/redux'
 import { useGameOptions } from '../../hooks/useGameOptions'
 import useModalVisible from '../../hooks/useModalVisible'
-import { selectUserId } from '../../redux/selectors/authSelectors'
+import { selectIsAuth, selectUserId } from '../../redux/selectors/authSelectors'
 import {
   selectGameOverData,
   selectRoomId,
@@ -20,6 +20,7 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
   const gameIsOverFromStore = useAppSelector(selectGameOverData)
   const userIdFromStore = useAppSelector(selectUserId)
   const roomIdFromStore = useAppSelector(selectRoomId)
+  const isAuth = useAppSelector(selectIsAuth)
 
   const [onClickBtn, setOnClickBtn] = useState<() => void>()
 
@@ -74,6 +75,7 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
           isGameRunning={isGameRunning}
           giveUp={giveUp}
           offerDraw={offerDraw}
+          disabled={!isAuth}
         />
       )}
       {mode === '3d' && (
@@ -82,6 +84,7 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
           isGameRunning={isGameRunning}
           giveUp={giveUp}
           offerDraw={offerDraw}
+          disabled={!isAuth}
         />
       )}
 
@@ -91,6 +94,7 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
           isGameRunning={isGameRunning}
           giveUp={giveUp}
           offerDraw={offerDraw}
+          disabled={!isAuth}
         />
       )}
 

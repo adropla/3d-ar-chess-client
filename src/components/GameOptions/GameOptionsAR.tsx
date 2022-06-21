@@ -106,6 +106,7 @@ export type TGameOptions = {
   giveUp: () => void
   offerDraw: () => void
   isGameRunning: boolean
+  disabled: boolean
 }
 
 export const GameOptionsAR: React.FC<TGameOptions> = ({
@@ -113,6 +114,7 @@ export const GameOptionsAR: React.FC<TGameOptions> = ({
   giveUp,
   offerDraw,
   isGameRunning,
+  disabled,
 }) => {
   return (
     <UpperRight>
@@ -127,7 +129,7 @@ export const GameOptionsAR: React.FC<TGameOptions> = ({
       {!isGameRunning && (
         <>
           {/* <SecondaryButton>Играть с компьютером</SecondaryButton> */}
-          <SecondaryButton onClick={playViaLink}>
+          <SecondaryButton onClick={playViaLink} disabled={disabled}>
             Играть с другом по ссылке
           </SecondaryButton>
         </>

@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
 import { Routes, Route, useParams } from 'react-router-dom'
-import { Layout } from 'antd'
+import { Layout, notification } from 'antd'
 
 import { AuthRoute } from '../AuthRoute/AuthRoute'
 import { useAppSelector } from '../../hooks/redux'
@@ -17,10 +18,23 @@ import AccountSetting from '../AccountSetting/AccountSetting'
 
 const { Content } = Layout
 
+const openNotification = () => {
+  const args = {
+    message: 'Режим ограниченной функциональности',
+    description:
+      'Чтобы играть по сети войдите в систему, либо зарегистрируйтесь',
+    duration: 0,
+  }
+  notification.open(args)
+}
+
 const App = (): JSX.Element => {
   const isAuth = useAppSelector(selectIsAuth)
   const { roomIdParam } = useParams()
   const wrapperStyle = roomIdParam ? { padding: '20px' } : {}
+  useEffect(() => {
+    openNotification()
+  }, [])
   return (
     <Layout className={styles.layoutWrapper}>
       <SideMenu />
