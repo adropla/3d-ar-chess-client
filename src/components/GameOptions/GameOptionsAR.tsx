@@ -1,14 +1,5 @@
-import classNames from 'classnames'
-
-import { Button, Select, Tabs } from 'antd'
+import { Button, Tabs } from 'antd'
 import styled, { css } from 'styled-components'
-
-import { v4 as uuidv4 } from 'uuid'
-
-import styles from './GameOptions.module.scss'
-
-const { Option } = Select
-const { TabPane } = Tabs
 
 const RightMenuTabs = styled(Tabs)`
   &&& {

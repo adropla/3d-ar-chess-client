@@ -1,16 +1,11 @@
 /* eslint-disable no-plusplus */
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { ReactReduxContext } from 'react-redux'
-import { Group } from 'three'
+import { Group, sRGBEncoding } from 'three'
 import { ARCanvas, useHitTest } from '@react-three/xr'
-import {
-  OrbitControls,
-  useContextBridge,
-  TransformControls,
-} from '@react-three/drei'
-import { extend } from '@react-three/fiber'
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls, useContextBridge, useAspect } from '@react-three/drei'
+
 import { DefaultChessScene } from '../GameBoard3D/scene/DefaultScene'
 
 import { useGame } from '../../hooks/useGame'
@@ -18,12 +13,34 @@ import { PlayersInfo } from '../PlayersInfo/PlayersInfo'
 
 import styles from './GamePage2D.module.scss'
 import GameOptionsContainer from '../GameOptions/GameOptionsContainer'
-import myFont from '../../assets/comic.ttf'
 import { useAppSelector } from '../../hooks/redux'
 import {
   selectGameOverData,
   selectIsWaiting,
 } from '../../redux/selectors/currentGameSelectors'
+
+const CreateAnimatedMesh = () => {
+  const size = useAspect(1800, 1000)
+  const [video] = useState(() =>
+    Object.assign(document.createElement('video'), {
+      src: '../../assets/stabilization.gif',
+      crossOrigin: 'Anonymous',
+      loop: true,
+      muted: true,
+    }),
+  )
+  useEffect(() => {
+    video.play()
+  }, [video])
+  return (
+    <mesh scale={size}>
+      <planeBufferGeometry />
+      <meshBasicMaterial toneMapped={false}>
+        <videoTexture attach="map" args={[video]} encoding={sRGBEncoding} />
+      </meshBasicMaterial>
+    </mesh>
+  )
+}
 
 const ARApp = ({
   isLobby,
@@ -53,6 +70,7 @@ const ARApp = ({
     <group ref={ref}>
       <OrbitControls />
       <DefaultChessScene isLobby={isLobby} ar gameProps={gameProps} />
+      <CreateAnimatedMesh />
     </group>
   )
 }
@@ -108,7 +126,9 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
       <GameOptionsContainer mode="ar" />
       <div
         className={
-          isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
+          !isLobby && isWaiting && !gameIsOverData
+            ? styles.waiting
+            : styles.hidden
         }
         style={{
           width: '100%',

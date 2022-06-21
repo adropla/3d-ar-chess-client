@@ -138,6 +138,12 @@ export const serverApi = createApi({
         method: 'post',
       }),
     }),
+    gameIsOver: build.mutation({
+      query: (roomId: string) => ({
+        url: `gameIsOver/${roomId}`,
+        method: 'post',
+      }),
+    }),
   }),
 })
 
@@ -150,4 +156,5 @@ export const {
   useCreateLinkGameMutation,
   useJoinLinkGameMutation,
   useGetUserDataMutation,
+  useGameIsOverMutation,
 } = serverApi

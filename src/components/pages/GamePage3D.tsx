@@ -46,7 +46,9 @@ const GamePage3D = ({ isLobby = true }) => {
 
         <div
           className={
-            isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
+            !isLobby && isWaiting && !gameIsOverData
+              ? styles.waiting
+              : styles.hidden
           }
           style={{
             width: '100%',

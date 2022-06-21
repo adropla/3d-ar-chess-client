@@ -1,3 +1,4 @@
+import { Typography } from 'antd'
 import { useRef, useState } from 'react'
 import { Chessboard } from 'react-chessboard'
 
@@ -5,6 +6,8 @@ import { useBoardWidth } from '../../../hooks/useBoardWidth'
 import { useGame } from '../../../hooks/useGame'
 
 import styles from './GameBoard.module.scss'
+
+const { Text } = Typography
 
 const GameBoard2D = () => {
   const wrapperRef = useRef()
@@ -116,17 +119,20 @@ const GameBoard2D = () => {
           height: `${boardWidth < 500 ? boardWidth - 20 : boardWidth}px`,
         }}
       >
-        <div className={styles.waiting_inner} s>
-          Ожидаем подключение другого игрока...
+        <div className={styles.waiting_inner}>
+          <Text>Ожидаем подключение другого игрока...</Text>
         </div>
       </div>
       <div className={gameIsOverData ? styles.waiting : styles.hidden}>
         <div className={styles.waiting_inner}>
-          {gameIsOverData?.isDraw ? 'ИГРА БЫЛА СЫГРАНА В НИЧЬЮ' : '\n'}
-          <br />
-          {gameIsOverData?.winnerColor?.[0] === 'b'
-            ? 'Выиграли черные'
-            : 'Выиграли белые'}
+          <Text>
+            {gameIsOverData?.isDraw ? 'ИГРА БЫЛА СЫГРАНА В НИЧЬЮ' : '\n'}
+          </Text>
+          <Text style={{ color: 'wheat' }}>
+            {gameIsOverData?.winnerColor?.[0] === 'b'
+              ? 'Выиграли черные'
+              : 'Выиграли белые'}
+          </Text>
         </div>
       </div>
       <Chessboard

@@ -1,20 +1,20 @@
-.btn {
-  width: 100%;
-  height: 40px;
-  margin: 10px 20px 10px 20px;
-  background-color: wheat;
-  color: rgb(151, 98, 0);
-  border: 0;
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
 }
 
-.arrowBtn {
-  position: absolute;
-  top: 15px;
-  left: 15px;
+.green {
+  color: rgb(136, 209, 0);
+}
+
+.red {
+  color: rgb(212, 70, 4);
 }
 
 .form {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }

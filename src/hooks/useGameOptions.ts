@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import {
   useCreateLinkGameMutation,
+  useGameIsOverMutation,
   useJoinLinkGameMutation,
 } from '../services/serverApi'
 import { useAppDispatch, useAppSelector } from './redux'
@@ -30,6 +31,7 @@ export const useGameOptions = () => {
   const [createLinkGameTrigger, createLinkGameResult] =
     useCreateLinkGameMutation()
   const [joinLinkGameTrigger, joinLinkGameResult] = useJoinLinkGameMutation()
+  const [gameIsOverTrigger, gameIsOverResult] = useGameIsOverMutation()
 
   const gameOptions = useMemo(
     () => ({
@@ -49,8 +51,9 @@ export const useGameOptions = () => {
       console.error(createLinkGameResult.data)
     } else if (createLinkGameResult.isSuccess) {
       dispatch(clearGame())
-      const { url } = createLinkGameResult.data
+      const { url, roomId } = createLinkGameResult.data
       navigate(`game/${url}`)
+      gameIsOverTrigger(roomId)
     }
   }, [createLinkGameResult])
 
@@ -80,7 +83,11 @@ export const useGameOptions = () => {
       joinLinkGameResult.reset()
       socket.emit('joinRoom', { roomId, userId: userIdFromStore })
     }
-  }, [joinLinkGameResult, userIdFromStore, roomIdParam])
+    if (gameIsOverResult.isSuccess) {
+      console.log(gameIsOverResult.data)
+    }
+    gameIsOverResult.reset()
+  }, [joinLinkGameResult, userIdFromStore, roomIdParam, gameIsOverResult])
 
   return {
     playViaLink,

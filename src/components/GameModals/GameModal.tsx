@@ -1,4 +1,5 @@
-import { Button, Form } from 'antd'
+import { Button, Form, Typography } from 'antd'
+import classnames from 'classnames'
 import RoundModal from '../../styledComponents/RoundModal'
 
 import styles from './GameModal.module.scss'
@@ -9,6 +10,8 @@ export type ModalProps = {
   modalVisible: boolean
   text: string
 }
+
+const { Text } = Typography
 
 export const GameModal = ({
   toogleModal,
@@ -34,20 +37,16 @@ export const GameModal = ({
       footer={null}
     >
       <Form name="forgot_form" className={styles.form}>
-        <Form.Item noStyle>
-          <Button type="primary" htmlType="submit" className={styles.btn}>
-            {text}
-          </Button>
-        </Form.Item>
-        <Form.Item noStyle>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className={styles.btn}
-            onClick={toogleModal}
+        <Form.Item>
+          <Text
+            className={classnames(
+              styles.text,
+              text === 'Вы выиграли' && styles.green,
+              text === 'Вы проиграли' && styles.red,
+            )}
           >
-            Отмена
-          </Button>
+            {text}
+          </Text>
         </Form.Item>
       </Form>
     </RoundModal>
