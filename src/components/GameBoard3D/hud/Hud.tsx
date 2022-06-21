@@ -70,13 +70,9 @@ const LowerRight = styled.div`
   }
 `
 
-const SoundOnIcon = () => (
-  <Icon style={{ fontSize: '30px' }} component={SoundOn} />
-)
+const SoundOnIcon = () => <Icon component={SoundOn} />
 
-const SoundOffIcon = () => (
-  <Icon style={{ fontSize: '30px', fontWeight: '800' }} component={SoundOff} />
-)
+const SoundOffIcon = () => <Icon component={SoundOff} />
 
 export const Hud = ({
   handleFullScreen,

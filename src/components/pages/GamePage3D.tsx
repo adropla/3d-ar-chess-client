@@ -28,26 +28,23 @@ const GamePage3D = ({ isLobby = true }) => {
   const gameProps = useGame(isLobby)
 
   return (
-    <>
-      <div className={styles.canvasWrapper}>
-        <FullScreen
-          handle={handleFullScreen}
-          className={styles.fullScreenCustom}
-        >
-          <Canvas>
-            <ContextBridge>
-              <DefaultChessScene
-                isLobby={isLobby}
-                ar={false}
-                gameProps={gameProps}
-              />
-            </ContextBridge>
-          </Canvas>
-          <Hud handleFullScreen={handleFullScreen} />
-          <PlayersInfo isLobby={isLobby} isMy />
-          <PlayersInfo isLobby={isLobby} isMy={false} />
+    <div className={styles.canvasWrapper}>
+      <FullScreen handle={handleFullScreen} className={styles.fullScreenCustom}>
+        <Canvas>
+          <ContextBridge>
+            <DefaultChessScene
+              isLobby={isLobby}
+              ar={false}
+              gameProps={gameProps}
+            />
+          </ContextBridge>
+        </Canvas>
+        <Hud handleFullScreen={handleFullScreen} />
+        <PlayersInfo isLobby={isLobby} isMy />
+        <PlayersInfo isLobby={isLobby} isMy={false} />
+        <GameOptionsContainer mode="3d" />
 
-          {!isLobby && (
+        {/* {!isLobby && (
             <>
               <div
                 className={
@@ -66,11 +63,9 @@ const GamePage3D = ({ isLobby = true }) => {
                 </div>
               </div>
             </>
-          )}
-        </FullScreen>
-      </div>
-      <GameOptionsContainer mode="3d" />
-    </>
+          )} */}
+      </FullScreen>
+    </div>
   )
 }
 
