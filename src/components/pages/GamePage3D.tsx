@@ -15,9 +15,9 @@ import {
   selectGameOverData,
   selectIsWaiting,
 } from '../../redux/selectors/currentGameSelectors'
+import { useGame } from '../../hooks/useGame'
 
 import styles from './GamePage2D.module.scss'
-import { useGame } from '../../hooks/useGame'
 
 const GamePage3D = ({ isLobby = true }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
@@ -44,26 +44,22 @@ const GamePage3D = ({ isLobby = true }) => {
         <PlayersInfo isLobby={isLobby} isMy={false} />
         <GameOptionsContainer mode="3d" />
 
-        {/* {!isLobby && (
-            <>
-              <div
-                className={
-                  isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
-                }
-              >
-                <div className={styles.waiting_inner}>
-                  Ожидаем подключение другого игрока...
-                </div>
-              </div>
-              <div className={gameIsOverData ? styles.waiting : styles.hidden}>
-                <div className={styles.waiting_inner}>
-                  {gameIsOverData?.isDraw}
-                  <br />
-                  {gameIsOverData?.winner}
-                </div>
-              </div>
-            </>
-          )} */}
+        <div
+          className={
+            isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
+          }
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+          }}
+        >
+          <div className={styles.waiting_inner}>
+            Ожидаем подключение другого игрока...
+          </div>
+        </div>
       </FullScreen>
     </div>
   )

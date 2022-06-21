@@ -122,7 +122,7 @@ const GameBoard2D = () => {
       </div>
       <div className={gameIsOverData ? styles.waiting : styles.hidden}>
         <div className={styles.waiting_inner}>
-          {gameIsOverData?.isDraw ? 'ИГРА БЫЛА СЫГРАНА В НИЧЬЮ' : ''}
+          {gameIsOverData?.isDraw ? 'ИГРА БЫЛА СЫГРАНА В НИЧЬЮ' : '\n'}
           <br />
           {gameIsOverData?.winnerColor?.[0] === 'b'
             ? 'Выиграли черные'

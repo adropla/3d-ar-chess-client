@@ -19,6 +19,11 @@ import { PlayersInfo } from '../PlayersInfo/PlayersInfo'
 import styles from './GamePage2D.module.scss'
 import GameOptionsContainer from '../GameOptions/GameOptionsContainer'
 import myFont from '../../assets/comic.ttf'
+import { useAppSelector } from '../../hooks/redux'
+import {
+  selectGameOverData,
+  selectIsWaiting,
+} from '../../redux/selectors/currentGameSelectors'
 
 const ARApp = ({
   isLobby,
@@ -78,6 +83,8 @@ const isXrSupport = async () => {
 
 const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
   const ContextBridge = useContextBridge(ReactReduxContext)
+  const isWaiting = useAppSelector(selectIsWaiting)
+  const gameIsOverData = useAppSelector(selectGameOverData)
 
   useEffect(() => {
     ;(async () => {
@@ -99,6 +106,22 @@ const GamePageAr = ({ isLobby }: { isLobby: boolean }) => {
       <PlayersInfo isLobby={isLobby} isMy />
       <PlayersInfo isLobby={isLobby} isMy={false} />
       <GameOptionsContainer mode="ar" />
+      <div
+        className={
+          isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
+        }
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+        }}
+      >
+        <div className={styles.waiting_inner}>
+          Ожидаем подключение другого игрока...
+        </div>
+      </div>
     </div>
   )
 }

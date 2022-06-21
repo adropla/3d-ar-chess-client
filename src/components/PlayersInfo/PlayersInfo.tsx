@@ -92,7 +92,7 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
         !isMy && styles.topSide,
         isLobby && !isMy && styles.hide,
       )}
-      style={{ zIndex: '1000' }}
+      style={{ zIndex: '999' }}
     >
       <Avatar
         className={styles.avatar}
