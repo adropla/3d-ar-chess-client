@@ -1,5 +1,10 @@
 import { Button, Form, Typography } from 'antd'
 import classnames from 'classnames'
+import styled from 'styled-components'
+import { useAppSelector } from '../../hooks/redux'
+import { selectUserId } from '../../redux/selectors/authSelectors'
+import { selectRoomId } from '../../redux/selectors/currentGameSelectors'
+import { socket } from '../../Socket/WebSocket'
 import RoundModal from '../../styledComponents/RoundModal'
 
 import styles from './GameModal.module.scss'
@@ -11,6 +16,22 @@ export type ModalProps = {
   text: string
 }
 
+const SecondaryButton = styled(Button)`
+  &&& {
+    background-color: rgba(122, 62, 2, 0.5);
+    margin-top: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    height: fit-content;
+    width: 100%;
+    &:hover {
+      color: black;
+      outline: none;
+      border: 0;
+    }
+  }
+`
+
 const { Text } = Typography
 
 export const GameModal = ({
@@ -19,6 +40,8 @@ export const GameModal = ({
   modalVisible,
   text,
 }: ModalProps) => {
+  const roomIdFromStore = useAppSelector(selectRoomId)
+  const userIdFromStore = useAppSelector(selectUserId)
   const handleOk = () => {
     toogleModal()
   }
@@ -48,6 +71,20 @@ export const GameModal = ({
             {text}
           </Text>
         </Form.Item>
+        {text === 'Вы хотите сдаться?' && (
+          <Form.Item>
+            <SecondaryButton
+              onClick={(e) =>
+                socket.emit('giveUp', {
+                  roomId: roomIdFromStore,
+                  userId: userIdFromStore,
+                })
+              }
+            >
+              Сдаться
+            </SecondaryButton>
+          </Form.Item>
+        )}
       </Form>
     </RoundModal>
   )

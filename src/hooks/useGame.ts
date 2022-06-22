@@ -25,6 +25,7 @@ type IGameIsOver = {
   isDraw: boolean
   winner: string
   winnerColor: string
+  text?: string
 }
 
 export const useGame = (isLobby: boolean) => {

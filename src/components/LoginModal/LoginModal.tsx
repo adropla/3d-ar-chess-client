@@ -3,7 +3,7 @@ import { Button, Form, Input, message, Typography } from 'antd'
 import { useAppDispatch } from '../../hooks/redux'
 import useAuthentification from '../../hooks/useAuthentification'
 import { setCredentials, setUserInfo } from '../../redux/reducers/authSlice'
-import { useGetUserDataMutation } from '../../services/serverApi'
+import { useGetMyUserDataMutation } from '../../services/serverApi'
 import RoundModal from '../../styledComponents/RoundModal'
 import { LoginModalProps } from '../../types/ModalProps'
 
@@ -32,7 +32,7 @@ const LoginModal = ({
   } = useAuthentification()
 
   const dispatch = useAppDispatch()
-  const [getUserInfoTrigger, getUserInfoResult] = useGetUserDataMutation()
+  const [getUserInfoTrigger, getUserInfoResult] = useGetMyUserDataMutation()
 
   const [form] = Form.useForm()
 

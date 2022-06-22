@@ -7,6 +7,7 @@ import {
   selectGameOverData,
   selectRoomId,
 } from '../../redux/selectors/currentGameSelectors'
+import { socket } from '../../Socket/WebSocket'
 import { EndGameModal } from '../EndGameModal/EndGameModal'
 import { GameModal } from '../GameModals/GameModal'
 import GameOptions from './GameOptions'
@@ -18,16 +19,13 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
   const { toogleModal, setModalVisible, modalVisible } = useModalVisible(false)
   const [text, setText] = useState<string>('')
   const gameIsOverFromStore = useAppSelector(selectGameOverData)
-  const userIdFromStore = useAppSelector(selectUserId)
   const roomIdFromStore = useAppSelector(selectRoomId)
+  const userIdFromStore = useAppSelector(selectUserId)
   const isAuth = useAppSelector(selectIsAuth)
-
-  const [onClickBtn, setOnClickBtn] = useState<() => void>()
 
   const giveUp = () => {
     if (!gameIsOverFromStore) {
       setText('Вы хотите сдаться?')
-      // setOnClickBtn(() => {})
       toogleModal()
     }
   }
@@ -45,7 +43,11 @@ const GameOptionsContainer = ({ mode }: { mode: '2d' | '3d' | 'ar' }) => {
   }
 
   const won = () => {
-    setText('Вы выиграли')
+    setText(
+      `Вы выиграли. ${
+        gameIsOverFromStore?.text ? gameIsOverFromStore?.text : ''
+      }`,
+    )
     toogleModal()
   }
 

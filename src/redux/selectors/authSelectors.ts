@@ -6,3 +6,4 @@ export const selectEmail = (state: RootState) => state.authSlice.email
 export const selectIsAuth = (state: RootState) => state.authSlice.isAuth
 export const selectUserId = (state: RootState) => state.authSlice.userId
 export const selectRating = (state: RootState) => state.authSlice.rating
+export const selectGames = (state: RootState) => state.authSlice.games

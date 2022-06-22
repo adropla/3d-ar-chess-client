@@ -11,8 +11,14 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 
 import styles from './PlayersInfo.module.scss'
-import { useGetUserDataMutation } from '../../services/serverApi'
-import { selectOpponentId } from '../../redux/selectors/currentGameSelectors'
+import {
+  useGetMyUserDataMutation,
+  useGetUserDataMutation,
+} from '../../services/serverApi'
+import {
+  selectIsWaiting,
+  selectOpponentId,
+} from '../../redux/selectors/currentGameSelectors'
 import { setUserInfo } from '../../redux/reducers/authSlice'
 import useWindowDimensions from '../../hooks/useWindowDimension'
 
@@ -27,10 +33,12 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
   const { isLobby, isMy } = props
   const username = useAppSelector(selectUsername)
   const rating = useAppSelector(selectRating)
+  const isWaiting = useAppSelector(selectIsWaiting)
 
   const opponentId = useAppSelector(selectOpponentId)
 
   const [getUserInfoTrigger, getUserInfoResult] = useGetUserDataMutation()
+  const [getMyUserInfoTrigger, getMyUserInfoResult] = useGetMyUserDataMutation()
   const dispatch = useAppDispatch()
   const [opponentInfo, setOpponentInfo] = useState<{
     username: string
@@ -40,27 +48,31 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
   const { width } = useWindowDimensions()
 
   useEffect(() => {
-    if (!isLobby && opponentId) {
-      ;(async () => {
-        const data = await getUserInfoTrigger(opponentId).unwrap()
-        // console.log(data)
-        setOpponentInfo({ username: data.name, rating: data.rating })
-      })()
+    if (!isLobby && opponentId && !isWaiting && !opponentInfo) {
+      getUserInfoTrigger(opponentId)
     }
-  }, [isLobby, opponentId, getUserInfoTrigger])
+  }, [isLobby, opponentId, getUserInfoTrigger, isWaiting])
+
+  useEffect(() => {
+    if (getUserInfoResult.isSuccess) {
+      const { data } = getUserInfoResult
+      console.log(data)
+      setOpponentInfo({ username: data.name, rating: data.rating })
+      getUserInfoResult.reset()
+    }
+  }, [getUserInfoResult])
 
   useEffect(() => {
     ;(async () => {
-      const userInfo = await getUserInfoTrigger('x').unwrap()
-      dispatch(setUserInfo({ ...userInfo }))
+      if (!username || !rating) {
+        const userInfo = await getMyUserInfoTrigger('x').unwrap()
+        dispatch(setUserInfo({ ...userInfo }))
+      }
     })()
-  }, [dispatch, getUserInfoTrigger])
+  }, [dispatch, getMyUserInfoResult, getMyUserInfoTrigger, rating, username])
 
   const endUsername = useMemo(
-    () =>
-      opponentInfo?.username
-        ? opponentInfo?.username
-        : `Anonymous${Math.round(Math.random() * 100000)}`,
+    () => (opponentInfo?.username ? opponentInfo?.username : ''),
     [opponentInfo?.username],
   )
   const endRating = useMemo(

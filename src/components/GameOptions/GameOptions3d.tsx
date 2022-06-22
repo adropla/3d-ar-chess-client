@@ -6,6 +6,8 @@ import styled, { css } from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 
 import styles from './GameOptions.module.scss'
+import { useAppSelector } from '../../hooks/redux'
+import { selectGameOverData } from '../../redux/selectors/currentGameSelectors'
 
 const { Option } = Select
 const { TabPane } = Tabs
@@ -123,14 +125,20 @@ export const GameOptions3d: React.FC<TGameOptions> = ({
   isGameRunning,
   disabled,
 }) => {
+  const gameIsOverFromStore = useAppSelector(selectGameOverData)
   return (
     <LowerRight>
       {isGameRunning && (
         <>
-          <SecondaryButton onClick={giveUp}>Сдаться</SecondaryButton>
-          <SecondaryButton onClick={offerDraw}>
-            Предложить ничью
+          <SecondaryButton
+            onClick={giveUp}
+            disabled={gameIsOverFromStore === false}
+          >
+            Сдаться
           </SecondaryButton>
+          {/* <SecondaryButton onClick={offerDraw}>
+            Предложить ничью
+          </SecondaryButton> */}
         </>
       )}
       {!isGameRunning && (

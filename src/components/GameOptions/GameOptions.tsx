@@ -6,6 +6,9 @@ import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 
 import styles from './GameOptions.module.scss'
+import { GamesList } from '../GamesList/GamesList'
+import { useAppSelector } from '../../hooks/redux'
+import { selectGameOverData } from '../../redux/selectors/currentGameSelectors'
 
 const { Option } = Select
 const { TabPane } = Tabs
@@ -90,16 +93,22 @@ const GameOptions: React.FC<TGameOptions> = ({
   isGameRunning,
   disabled,
 }) => {
+  const gameIsOverFromStore = useAppSelector(selectGameOverData)
   return (
     <div className={classNames(styles.wrapper)}>
       <RightMenuTabs type="card">
         {isGameRunning && (
           <TabPane tab="Текущая игра" key={uuidv4()}>
             <div className={classNames(styles.middleContent)}>
-              <SecondaryButton onClick={giveUp}>Сдаться</SecondaryButton>
-              <SecondaryButton onClick={offerDraw}>
-                Предложить ничью
+              <SecondaryButton
+                onClick={giveUp}
+                disabled={gameIsOverFromStore === false}
+              >
+                Сдаться
               </SecondaryButton>
+              {/* <SecondaryButton onClick={offerDraw}>
+                Предложить ничью
+              </SecondaryButton> */}
             </div>
           </TabPane>
         )}
@@ -128,12 +137,11 @@ const GameOptions: React.FC<TGameOptions> = ({
             </div>
           </TabPane>
         )}
-        {/* <TabPane tab="Games" key={uuidv4()}>
-          Games
-        </TabPane>
-        <TabPane tab="Players" key={uuidv4()}>
-          Player
-        </TabPane> */}
+        {!disabled && (
+          <TabPane tab="Мои игры" key={uuidv4()}>
+            <GamesList />
+          </TabPane>
+        )}
       </RightMenuTabs>
     </div>
   )

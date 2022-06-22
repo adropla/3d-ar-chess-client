@@ -5,11 +5,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../services/serverApi'
 
 const uuid = uuidv4()
-const random = Math.round(Math.random() * 100000)
 
 const initialState: IUser = {
   accessToken: null,
-  name: `Anonymous${random}`,
+  name: '',
   email: '',
   isAuth: false,
   userId: uuid,
@@ -31,7 +30,7 @@ const authSlice = createSlice({
     },
     clearCredentials: (state) => {
       state.accessToken = null
-      state.name = `Anonymous${random}`
+      state.name = ''
       state.email = ''
       state.rating = 0
       state.isAuth = false
@@ -54,6 +53,9 @@ const authSlice = createSlice({
     ) => {
       state.accessToken = accessToken
     },
+    setGames: (state, { payload: games }: PayloadAction<string>) => {
+      state.accessToken = games
+    },
   },
 })
 
@@ -63,5 +65,6 @@ export const {
   setUsername,
   setUserInfo,
   updateAccessToken,
+  setGames,
 } = authSlice.actions
 export default authSlice.reducer

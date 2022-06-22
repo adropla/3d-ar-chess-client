@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { useAppDispatch } from '../../hooks/redux'
 import useAuthentification from '../../hooks/useAuthentification'
 import { setCredentials, setUserInfo } from '../../redux/reducers/authSlice'
-import { useGetUserDataMutation } from '../../services/serverApi'
+import { useGetMyUserDataMutation } from '../../services/serverApi'
 import RoundModal from '../../styledComponents/RoundModal'
 import { SignupModalProps } from '../../types/ModalProps'
 import {
@@ -34,7 +34,7 @@ const SignUpModal = ({
   } = useAuthentification()
 
   const dispatch = useAppDispatch()
-  const [getUserInfoTrigger, getUserInfoResult] = useGetUserDataMutation()
+  const [getUserInfoTrigger, getUserInfoResult] = useGetMyUserDataMutation()
 
   const [form] = Form.useForm()
 

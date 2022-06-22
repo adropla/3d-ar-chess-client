@@ -115,8 +115,8 @@ const GameBoard2D = () => {
           isWaiting && !gameIsOverData ? styles.waiting : styles.hidden
         }
         style={{
-          width: `${boardWidth < 500 ? boardWidth - 20 : boardWidth}px`,
-          height: `${boardWidth < 500 ? boardWidth - 20 : boardWidth}px`,
+          width: `${boardWidth - 20}px`,
+          height: `${boardWidth - 20}px`,
         }}
       >
         <div className={styles.waiting_inner}>

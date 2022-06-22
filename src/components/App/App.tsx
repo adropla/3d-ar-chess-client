@@ -24,6 +24,7 @@ const openNotification = () => {
     description:
       'Чтобы играть по сети войдите в систему, либо зарегистрируйтесь',
     duration: 0,
+    key: 'notif',
   }
   notification.open(args)
 }
@@ -33,8 +34,12 @@ const App = (): JSX.Element => {
   const { roomIdParam } = useParams()
   const wrapperStyle = roomIdParam ? { padding: '20px' } : {}
   useEffect(() => {
-    openNotification()
-  }, [])
+    if (!isAuth) {
+      openNotification()
+    } else {
+      notification.close('notif')
+    }
+  }, [isAuth])
   return (
     <Layout className={styles.layoutWrapper}>
       <SideMenu />

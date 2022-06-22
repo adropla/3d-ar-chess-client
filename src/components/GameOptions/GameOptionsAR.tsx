@@ -1,5 +1,7 @@
 import { Button, Tabs } from 'antd'
 import styled, { css } from 'styled-components'
+import { useAppSelector } from '../../hooks/redux'
+import { selectGameOverData } from '../../redux/selectors/currentGameSelectors'
 
 const RightMenuTabs = styled(Tabs)`
   &&& {
@@ -116,14 +118,20 @@ export const GameOptionsAR: React.FC<TGameOptions> = ({
   isGameRunning,
   disabled,
 }) => {
+  const gameIsOverFromStore = useAppSelector(selectGameOverData)
   return (
     <UpperRight>
       {isGameRunning && (
         <>
-          <SecondaryButton onClick={giveUp}>Сдаться</SecondaryButton>
-          <SecondaryButton onClick={offerDraw}>
-            Предложить ничью
+          <SecondaryButton
+            onClick={giveUp}
+            disabled={gameIsOverFromStore === false}
+          >
+            Сдаться
           </SecondaryButton>
+          {/* <SecondaryButton onClick={offerDraw}>
+            Предложить ничью
+          </SecondaryButton> */}
         </>
       )}
       {!isGameRunning && (
