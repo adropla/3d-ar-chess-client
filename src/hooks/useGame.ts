@@ -20,13 +20,17 @@ import {
 
 import { socket } from '../Socket/WebSocket'
 import { useGameSounds } from './useGameSounds'
+import { useGetMyUserDataMutation } from '../services/serverApi'
+import { setUserInfo } from '../redux/reducers/authSlice'
 
-type IGameIsOver = {
-  isDraw: boolean
-  winner: string
-  winnerColor: string
-  text?: string
-}
+type IGameIsOver =
+  | {
+      isDraw: boolean
+      winner: string
+      winnerColor: string
+      text?: string
+    }
+  | false
 
 export const useGame = (isLobby: boolean) => {
   // #region hook State
@@ -51,6 +55,7 @@ export const useGame = (isLobby: boolean) => {
   const currentGameFen = useMemo(() => game.fen(), [game])
   const isMatchOver = useMemo(() => game.game_over(), [game])
   const [gameIsOverData, setGameIsOverData] = useState<IGameIsOver>()
+  const [getUserInfoTrigger, getUserInfoResult] = useGetMyUserDataMutation()
   // #endregion
 
   useEffect(() => {
@@ -155,12 +160,33 @@ export const useGame = (isLobby: boolean) => {
     if (!isLobby) {
       socket.on('gameStart', () => {
         setIsWaiting(false)
+
+        // if (gameIsOverData && fenFromStore.length > 0) {
+        //   safeGameMutate((gameInst: ChessInstance) => {
+        //     gameInst.load(fenFromStore[fenFromStore.length - 1])
+        //   })
+        // }
       })
       socket.on('gameIsOver', (data) => {
         setGameIsOverData(data)
+        getUserInfoTrigger('')
+        // if (!gameIsOverData) {
+        //   console.log(currentGameFen)
+        //   safeGameMutate((gameInst: ChessInstance) => {
+        //     gameInst.load(fenFromStore[fenFromStore.length - 1])
+        //   })
+        // }
       })
     }
   }, [isLobby])
+
+  useEffect(() => {
+    if (getUserInfoResult.isSuccess) {
+      const userInfo = getUserInfoResult.data
+      dispatch(setUserInfo({ ...userInfo }))
+    }
+  }, [getUserInfoResult])
+
   // #endregion
 
   // #region memos

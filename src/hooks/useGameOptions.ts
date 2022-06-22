@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react'
+import { notification } from 'antd'
 import {
   useLocation,
   useNavigate,
@@ -16,8 +17,20 @@ import {
   clearGame,
   setDidRejoin,
   setGame,
+  setGameOverData,
+  setIsWaitingStore,
 } from '../redux/reducers/currentGameSlice'
 import { socket } from '../Socket/WebSocket'
+
+const openNotification = (roomId: string) => {
+  const args = {
+    message: 'Поделитесь ссылкой',
+    description: `https://3d-ar-chess-client.vercel.app/game/${roomId}`,
+    duration: 0,
+    key: 'notif',
+  }
+  notification.open(args)
+}
 
 export const useGameOptions = () => {
   const navigate = useNavigate()
@@ -51,9 +64,11 @@ export const useGameOptions = () => {
       console.error(createLinkGameResult.data)
     } else if (createLinkGameResult.isSuccess) {
       dispatch(clearGame())
+
       const { url, roomId } = createLinkGameResult.data
       navigate(`game/${url}`)
       gameIsOverTrigger(roomId)
+      openNotification(roomId)
     }
   }, [createLinkGameResult])
 
@@ -77,14 +92,21 @@ export const useGameOptions = () => {
           opponentId,
         }),
       )
+      console.log(fen)
       if (fen.length > 0) {
         dispatch(setDidRejoin(true))
       }
       joinLinkGameResult.reset()
+
       socket.emit('joinRoom', { roomId, userId: userIdFromStore })
     }
+
     if (gameIsOverResult.isSuccess) {
-      console.log(gameIsOverResult.data)
+      const { data } = gameIsOverResult
+      if (data !== false) {
+        dispatch(setIsWaitingStore(false))
+      }
+      dispatch(setGameOverData(data))
     }
     gameIsOverResult.reset()
   }, [joinLinkGameResult, userIdFromStore, roomIdParam, gameIsOverResult])

@@ -4,6 +4,8 @@ import { Chessboard } from 'react-chessboard'
 
 import { useBoardWidth } from '../../../hooks/useBoardWidth'
 import { useGame } from '../../../hooks/useGame'
+import { useAppSelector } from '../../../hooks/redux'
+import { selectGameOverData } from '../../../redux/selectors/currentGameSelectors'
 
 import styles from './GameBoard.module.scss'
 
@@ -27,8 +29,9 @@ const GameBoard2D = () => {
     game,
     mySideFromStore,
     setGame,
-    gameIsOverData,
   } = useGame(false)
+
+  const gameIsOverData = useAppSelector(selectGameOverData)
 
   function getMoveOptions(square) {
     const moves = game.moves({

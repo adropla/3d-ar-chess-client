@@ -29,10 +29,10 @@ export const GamesList = () => {
     <List
       size="small"
       bordered
-      dataSource={gamesIds}
-      renderItem={(item) => (
+      dataSource={gamesIds || []}
+      renderItem={(item, index) => (
         <List.Item>
-          <Link to={`/game/${item}`}>{item}</Link>
+          <Link to={`/game/${item}`}>{`Game #${index}`}</Link>
         </List.Item>
       )}
     />
