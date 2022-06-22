@@ -137,11 +137,11 @@ const GameOptions: React.FC<TGameOptions> = ({
             </div>
           </TabPane>
         )}
-        {!disabled && (
+        {/* {!disabled && (
           <TabPane tab="Мои игры" key={uuidv4()}>
-            {/* <GamesList /> */}
+            <GamesList />
           </TabPane>
-        )}
+        )} */}
       </RightMenuTabs>
     </div>
   )
