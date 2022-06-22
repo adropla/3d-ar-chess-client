@@ -62,14 +62,14 @@ export const PlayersInfo: React.FC<IPlayerInfo> = (props) => {
     }
   }, [getUserInfoResult])
 
-  useEffect(() => {
-    ;(async () => {
-      if (!username || !rating) {
-        const userInfo = await getMyUserInfoTrigger('x').unwrap()
-        dispatch(setUserInfo({ ...userInfo }))
-      }
-    })()
-  }, [dispatch, getMyUserInfoResult, getMyUserInfoTrigger, rating, username])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     if (!username || !rating) {
+  //       const userInfo = await getMyUserInfoTrigger('x').unwrap()
+  //       dispatch(setUserInfo({ ...userInfo }))
+  //     }
+  //   })()
+  // }, [dispatch, getMyUserInfoResult, getMyUserInfoTrigger, rating, username])
 
   const endUsername = useMemo(
     () => (opponentInfo?.username ? opponentInfo?.username : ''),
